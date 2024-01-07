@@ -5,11 +5,12 @@ $adjacents = [
   [1, 0], [-1, 0], [-1, 1], [1, -1]
 ];
 
+// Mode qe merret nga user nga console eshte thjesht per ceshtje testimi. Ne realitet zgjedhjen e tille e marrim nga frontend
+$mode = readline("Choose the algorithm with which the game will be solved! DFS or BFS!");
 
-// $mode = readline("Choose the algorithm with which the game will be solved! DFS or BFS!");
 
 
-
+//Funksioni rekursiv i eksplorimit eshte njejte i implementuar per te dy algoritmet. Vetem qasja ne rounde te minesweeper ndryshon, pra ajo e ben dallimin
 //Implementation of DFS
 function explore(&$mat, $row, $col){
     global $adjacents;
@@ -37,46 +38,49 @@ function explore(&$mat, $row, $col){
     }
 }
 
-function minesweeperRound($matrix){
-    $click = [];
-    // Perform a click based on BFS for each round
 
+// Implementation of minesweeper rounds
+function minesweeperRound($matrix){
+    global $mode;
+    $click = [];
+   
     $rows = count($matrix);
     $cols = count($matrix[0]);
 
-    for ($sum = 0; $sum <= $rows + $cols - 2; $sum++) {
-        for ($i = 0; $i <= $sum; $i++) {
-            $j = $sum - $i;
-            if ($i < $rows && $j < $cols) {
-                if ($matrix[$i][$j] === 'E'){
-                    explore($matrix, $i, $j);
-                    $click = [$i, $j];
+    if(strtoupper($mode)=='BFS'){
+        // Perform a click based on BFS for each round (BFS Implementation)
+        for ($sum = 0; $sum <= $rows + $cols - 2; $sum++) {
+            for ($i = 0; $i <= $sum; $i++) {
+                $j = $sum - $i;
+                if ($i < $rows && $j < $cols) {
+                    if ($matrix[$i][$j] === 'E'){
+                        explore($matrix, $i, $j);
+                        $click = [$i, $j];
+                        return [$matrix, $click];
+                    }
+                }
+            }
+        }
+        return [$matrix, $click];
+    }
+    else if(strtoupper($mode)=='DFS'){
+        $click = [];
+        // Perform a click based on DFS for each round (DFS Implementation)
+        foreach ($matrix as $x => $row) {
+            foreach ($row as $y => $cell) {
+                if ($cell === 'E') {
+                    explore($matrix, $x, $y);
+                
+                    $click = [$x, $y];
                     return [$matrix, $click];
                 }
             }
         }
+        return [$matrix, $click];
     }
-
-    return [$matrix, $click];
 }
+  
 
-
-//Implementation of minesweeper rounds
-// function minesweeperRound($matrix){
-//     $click = [];
-//     // Perform a click based on DFS for each round
-//     foreach ($matrix as $x => $row) {
-//         foreach ($row as $y => $cell) {
-//             if ($cell === 'E') {
-//             //   dfs_explore($matrix, $x, $y);
-//             bfs_explore($matrix, $x, $y);
-//                 $click = [$x, $y];
-//                 return [$matrix, $click];
-//             }
-//         }
-//     }
-//     return [$matrix, $click];
-// }
 // Helper function to check if the game has finished
 function isGameFinished($matrix) {
     foreach ($matrix as $row) {
@@ -86,6 +90,7 @@ function isGameFinished($matrix) {
     }
     return true;
   }
+
 //Implementation of game playing and validations
 function playMinesweeper($matrix){
     $round = 1; // per te numeruar rundet 
@@ -167,4 +172,5 @@ $mat =  [
 // ];
 
 playMinesweeper($mat);
+
 ?>
