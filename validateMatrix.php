@@ -20,7 +20,7 @@ function isValidMinesweeperMtx($matrix) {
 
     return true;
 }
-// Matricat mund te jene te cfaredo dimenzioni 9x9 16x16 16x30
+// Matricat mund te jene te cfaredo dimenzioni 9x9 16x16 16x30 kur te i testojme ne minesweeper
 // Example usage:
 // -1 do te thote mina
 $validGrid = [
