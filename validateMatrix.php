@@ -29,9 +29,10 @@ $validGrid = [
     [1, 3, -1]
 ];
 
+// Invalid: 10 is not a valid number of adjacent mines
 $invalidGrid = [
     [0, 1, -1],
-    [2, -1, 10],  // Invalid: 10 is not a valid number of adjacent mines
+    [2, -1, 10],  
     [1, 3, -1]
 ];
 
