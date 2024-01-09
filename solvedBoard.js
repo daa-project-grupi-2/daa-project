@@ -20,10 +20,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 const cellValue = minesweeperMatrix[i][j];
                 
                 // Set the text content based on the cell value
-                if (cellValue === 'E' || cellValue === 'M' ){
+                if (cellValue === 'E' ){
                     // For 'E', 'M', or numbers, show an empty cell
                     cellElement.textContent = '';
-                } else if ( Number.isInteger(parseInt(cellValue))) {
+                } else if(cellValue=== 'M'){
+                    const flagImg = document.createElement('img');
+                    flagImg.src = 'media/images/flag.png'; // Replace with the actual path to your flag image
+                    flagImg.alt = 'Flag';
+                    cellElement.appendChild(flagImg);
+
+
+
+                }else if ( Number.isInteger(parseInt(cellValue))) {
                     // For  numbers, simulate an opened cell appearance with the number value and color 
                     cellElement.textContent = cellValue;
                     console.log('Setting color for cell:', cellValue);
@@ -82,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Sample Minesweeper matrices (replace this with your actual matrices)
     const sampleMatrices = [
         [
-            ['1', 'B', '3', 'E', 'E', 'E'],
+            ['1', 'B', 'E', 'E', 'E', 'E'],
             ['E', '2', 'E', 'E', 'E', 'E'],
             ['E', 'E', 'E', 'E', 'E', 'E'],
             ['E', 'E', 'E', 'E', 'E', 'E'],
@@ -90,7 +98,14 @@ document.addEventListener('DOMContentLoaded', function () {
             ['E', 'E', 'E', 'E', 'E', 'E']
         ],
         [
-            ['1', 'E', '3', '2', '4', 'E'],
+            ['1', 'B', '3', 'M', 'E', 'E'],
+            ['E', '2', 'E', 'E', 'E', 'E'],
+            ['E', 'E', 'E', 'E', 'E', 'E'],
+            ['E', 'E', 'E', 'E', 'E', 'E'],
+            ['E', 'E', 'E', 'E', 'E', 'E'],
+            ['E', 'E', 'E', 'E', 'E', 'E']
+        ], [
+            ['1', 'B', '3', 'M', '7', '8'],
             ['E', '2', 'E', 'E', 'E', 'E'],
             ['E', 'E', 'E', 'E', 'E', 'E'],
             ['E', 'E', 'E', 'E', 'E', 'E'],
