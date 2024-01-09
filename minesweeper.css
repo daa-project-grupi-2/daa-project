@@ -1,0 +1,199 @@
+* {
+  -o-user-select: none;
+  user-select: none;
+}
+
+body {
+  background-color: #0d8584;
+  background-image: url("https://banner2.cleanpng.com/20190503/jbp/kisspng-minesweeper-classic-mines-mine-sweeper-mono-micr-minesweeper-x-by-oleg-adamov-5ccc30a4c2c3f6.3183695315568856687978.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#board {
+  background-color: lightgray;
+}
+
+button {
+  font-family: "MS Sans Serif";
+  text-align: left;
+  font-size: 14px;
+  height: 30px;
+  width: 100px;
+  background-color: #bfbfbf;
+  color: black;
+  border-bottom: 2px solid #7b7b7b;
+  border-left: 2px solid #ffffff;
+  border-top: 2px solid #ffffff;
+  border-right: 2px solid #7b7b7b;
+}
+
+button:hover {
+  background-color: lightgray;
+  color: slategray;
+  cursor: pointer;
+}
+
+#clock {
+  font-family: "MS Sans Serif";
+  font-size: 14px;
+  display: inline;
+  float: right;
+  border-top: 1.5px solid #808080;
+  border-left: 1.5px solid #808080;
+  border-right: 1.5px solid #fafafa;
+  border-bottom: 1.5px solid #fafafa;
+  /* height: 28px; */
+  width: 200px;
+  height: 22px;
+  margin: 2px;
+  padding: 5px;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: center;
+  margin: 80px 10px;
+}
+#footer {
+  text-align: center;
+  position: fixed;
+  height: 36px;
+  background-color: #bfbfbf;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  margin-bottom: 0px;
+}
+
+.menu a {
+  font-family: "MS Sans Serif";
+  color: black;
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 0;
+}
+
+#reset {
+  text-align: center;
+  width: 35px;
+  height: 35px;
+  border-top: 2px solid #ffffff;
+  border-right: 2px solid #7b7b7b;
+  border-bottom: 2px solid #7b7b7b;
+  border-left: 2px solid #ffffff;
+}
+
+#reset:hover {
+  text-align: center;
+  cursor: pointer;
+}
+
+.sidebar {
+  vertical-align: top;
+  max-width: 300px;
+  margin: 0 30px;
+}
+
+#size-btns {
+  float: left;
+  display: inline;
+  margin: 2px;
+}
+
+#start {
+  float: left;
+}
+
+.status-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 2px;
+  margin: 6px;
+  border-top: 2px solid #7b7b7b;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  border-left: 2px solid #7b7b7b;
+}
+
+td {
+  height: 20px;
+  width: 20px;
+  background-color: #c0c0c0;
+  border: 1.5px solid;
+  border-top-color: #ffffff;
+  border-right-color: #7b7b7b;
+  border-bottom-color: #7b7b7b;
+  border-left-color: #ffffff;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.timer,
+.bomb-counter {
+  font-family: "Digital Dismay";
+  font-size: 35px;
+  letter-spacing: 1px;
+  color: red;
+  background-color: black;
+  text-align: center;
+  padding: 4px 4px 0 7px;
+  line-height: 1em;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+/* ... (other styles remain unchanged) ... */
+
+.cell-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #c0c0c0;
+  border: 1px solid #7b7b7b;
+  padding: 8px;
+  margin: 6px;
+}
+
+.reset {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #c0c0c0;
+  border: 1.5px solid;
+  border-top-color: #ffffff;
+  border-right-color: #7b7b7b;
+  border-bottom-color: #7b7b7b;
+  border-left-color: #ffffff;
+  text-align: center;
+  vertical-align: middle;
+  height: 38px;
+  width: 50px;
+  font-size: 24px; /* Adjust font size as needed */
+}
+
+.game-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-board.container {
+  background-color: #c0c0c0;
+  border: 1.5px solid #ffffff;
+  border-top-color: #ffffff;
+  border-right-color: #7b7b7b;
+  border-bottom-color: #7b7b7b;
+  border-left-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flag {
+  background-image: url("https://img.itch.zone/aW1nLzExMzcwODYyLnBuZw==/original/M8TANS.png");
+  background-size: contain;
+}

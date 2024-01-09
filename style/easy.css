@@ -1,0 +1,42 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: rgb(219, 219, 219);
+  }
+  
+  #game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 200px;
+  }
+  
+  #head-menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 10px;
+  }
+  
+  
+  .display {
+    background-color: black;
+    color: red;
+    padding: 5px 10px;
+  }
+  
+  .start-btn {
+    border: 1px solid rgb(104, 104, 104);
+    padding: 3px;
+  }
+  
+  .start-btn:hover {
+    background-color: rgb(104, 104, 104);
+    cursor: pointer;
+  }
+  
+  main {
+    display: flex;
+    text-align: center;
+  }
