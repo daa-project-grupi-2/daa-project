@@ -13,6 +13,25 @@ function isValidMinesweeperMtx($matrix) {
         return false;
     }
 
+    // Counting the number of mines
+    $mineCount = 0;
+    foreach ($matrix as $row) {
+        foreach ($row as $cell) {
+            if ($cell === 'M') {
+                $mineCount++;
+            }
+        }
+    }
+
+    // Checking if the number of mines is within the allowed limit for each mode
+    if (
+        ($rows === 9 && $cols === 9 && $mineCount > 10) ||
+        ($rows === 16 && $cols === 16 && $mineCount > 40) ||
+        ($rows === 16 && $cols === 30 && $mineCount > 99)
+    ) {
+        return false;
+    }
+
     foreach ($matrix as $row) {
         if (count($row) !== $cols) {
             return false;
