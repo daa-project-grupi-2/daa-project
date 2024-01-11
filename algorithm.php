@@ -81,7 +81,7 @@ function isGameFinished($matrix)
     return true;
 }
 
-function solveMinesweeper($matrix)
+function solveMinesweeper($matrix) 
 {
     $steps = [];
     while (!isGameFinished($matrix)) {
