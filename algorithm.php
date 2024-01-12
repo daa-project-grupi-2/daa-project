@@ -166,6 +166,42 @@ $mat =  [
 // ];
 $solvedSteps = solveMinesweeper($mat);
 
+
+//Logjika e tiketes
+//Vendosja e matrices per cdo step ne nje array
+//Vendosja e atij array ne fajllin solution.json
+//Vendosja behet ashtu qe cdo element formatohet qe te kete edhe indeksin e tij poashtu formatohet per pamje te mire vizuale 
+
+$json_solution = json_encode($solvedSteps,JSON_PRETTY_PRINT);
+file_put_contents('solution.json',$json_solution); 
+
+
+$json_data = file_get_contents('solution.json');
+$decoded_data = json_decode($json_data,true);
+
+
+
+//Ne koment eshte kodi i cili perdoret per fetching te te dhenave nga JSON, te perdorur nga FrontEnd dhe 
+//krijimi i matrices se re per cdo hap e njekohesisht anash printimin e steps te klikuar
+
+// for($i=0;$i<count($decoded_data);$i++){
+//     echo "\n Matrix number ".($i+1)."\n";
+//     echo "Click for the following matrix is: ";
+//     print_r($decoded_data[$i]['click'][0]);
+//     echo " ";
+//     print_r($decoded_data[$i]['click'][1]);
+//     echo "\n";
+//     for($j=0;$j<9;$j++){
+//         for($k=0;$k<9;$k++){
+//             print_r($decoded_data[$i]['matrix'][$j][$k]);
+//             echo " ";
+//         }
+//         echo "\n";        
+//     }
+    
+// }
+
+
 echo "Initial Matrix:<br>";
 printMinesweeper($mat, count($mat) - 1, count($mat[0]) - 1, null);
 
@@ -177,4 +213,7 @@ foreach ($solvedSteps as $step) {
     printMinesweeper($step['matrix'], $lastRow, $lastCol, $step['click']);
     echo "<br><br>";
 }
+
+
+
 ?>
