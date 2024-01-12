@@ -166,23 +166,23 @@ $mat =  [
 // ];
 $solvedSteps = solveMinesweeper($mat);
 
+//--------------------------------------------------------------------------------------------------------------------------------
 
-//Logjika e tiketes
-//Vendosja e matrices per cdo step ne nje array
-//Vendosja e atij array ne fajllin solution.json
-//Vendosja behet ashtu qe cdo element formatohet qe te kete edhe indeksin e tij poashtu formatohet per pamje te mire vizuale 
 
+//Vendosja ne fajllin json e solvedSteps, qe permban gjendjen e matrices ne cdo hap dhe klikun e nevojshem per ate gjendje
 $json_solution = json_encode($solvedSteps,JSON_PRETTY_PRINT);
 file_put_contents('solution.json',$json_solution); 
 
-
+//Kodi i meposhtem perdoret per testim, per te pare a eshte ne rregull komunikimi get dhe put data ne jSon, qe ne fakt eshte ne rregull
+//Pra lirisht mund te fshihet kur FrontEnd merr dhe perpunon te dhenat nga jSon duke perdorur kodin e ngjashem si me poshte
 $json_data = file_get_contents('solution.json');
 $decoded_data = json_decode($json_data,true);
 
 
-
 //Ne koment eshte kodi i cili perdoret per fetching te te dhenave nga JSON, te perdorur nga FrontEnd dhe 
 //krijimi i matrices se re per cdo hap e njekohesisht anash printimin e steps te klikuar
+//Kodi i tille do pershtatet ne gjuhen JavaScript nga FrontEnd
+
 
 // for($i=0;$i<count($decoded_data);$i++){
 //     echo "\n Matrix number ".($i+1)."\n";
