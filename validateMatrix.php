@@ -48,7 +48,7 @@ function isValidMinesweeperMtx($matrix) {
     return true;
 }
 
-// 9x9
+// 9x9 - Matrica easy
 $validGrid9x9 = [
     ['E', 'E', 'E', 'E', 'E', 'E', 'M', 'E', 'E'],
     ['E', 'M', 'E', 'E', 'E', 'E', 'E', 'E', 'E'],
