@@ -5,8 +5,10 @@
 
 body {
   background-color: #0d8584;
-  background-image: url("https://banner2.cleanpng.com/20190503/jbp/kisspng-minesweeper-classic-mines-mine-sweeper-mono-micr-minesweeper-x-by-oleg-adamov-5ccc30a4c2c3f6.3183695315568856687978.jpg");
+  background-image: url("https://is1-ssl.mzstatic.com/image/thumb/Purple117/v4/ab/22/44/ab22447d-7b7b-26a3-fec8-a2f8399c6298/mzl.nnkcdmgj.png/1200x600wa.png");
   background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
   background-size: cover;
 }
 
@@ -76,7 +78,7 @@ button:hover {
 
 #reset {
   text-align: center;
-  width: 35px;
+  width: 68px;
   height: 35px;
   border-top: 2px solid #ffffff;
   border-right: 2px solid #7b7b7b;
@@ -155,6 +157,10 @@ td {
   padding: 8px;
   margin: 6px;
 }
+.mine {
+  width: 22px;
+  height: 22px;
+}
 
 .reset {
   display: flex;
@@ -169,8 +175,8 @@ td {
   text-align: center;
   vertical-align: middle;
   height: 38px;
-  width: 50px;
-  font-size: 24px; /* Adjust font size as needed */
+  width: 68px;
+  font-size: 17px; /* Adjust font size as needed */
 }
 
 .game-wrapper {
@@ -189,9 +195,11 @@ td {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 120px;
 }
 
 .flag {
   background-image: url("https://img.itch.zone/aW1nLzExMzcwODYyLnBuZw==/original/M8TANS.png");
   background-size: contain;
 }
+
