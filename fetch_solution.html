@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch json solution</title>
+</head>
+<body>
+    <script>
+        // per te pare se behet fetch nga solution.json download extention Live Server dhe pastaj Go Live
+        function fetchGameSolution() {
+            return fetch('solution.json')
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error('Network response was not ok');
+                }
+                return response.json();
+              })
+              .then(data => {
+                console.log('JSON data successfully fetched:', data);
+                // Clear existing values in sampleMatrices if needed
+                sampleMatrices = [];
+                // Iterate over each step in the JSON data
+                data.forEach(step => {
+                  // Extract the 'matrix' array from each step and add it to sampleMatrices
+                  sampleMatrices.push(step.matrix);
+                });
+              })
+              .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+              });
+          }
+    </script>
+</body>
+</html>
