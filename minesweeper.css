@@ -146,8 +146,6 @@ td {
   opacity: 0;
 }
 
-/* ... (other styles remain unchanged) ... */
-
 .cell-header {
   display: flex;
   justify-content: space-between;
