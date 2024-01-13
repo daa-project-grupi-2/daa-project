@@ -2,10 +2,117 @@ let flagCount;
 let isTimerRunning = false;
 let timeElapsed = 0;
 let timerInterval;
+let isBoardGenerated = false;
 
 let flagsDisplay = createDisplayElement("div", "000", "bomb-counter");
 let timerDisplay = createDisplayElement("div", "000", "timer");
 let emojiCell = createDisplayElement("button", "😀", "reset");
+const randomBtn = createDisplayElement("button", "Random", "reset");
+const submitBtn = createDisplayElement("button", "Submit", "reset");
+
+// Logic for submit button
+submitBtn.addEventListener("click", function () {
+  const matrixData = getMatrixData();
+  console.log(matrixData);
+  sendMatrixToServer(matrixData);
+});
+function getMatrixData() {
+  const matrixRows = document.querySelectorAll("#matrix tbody tr");
+  const matrixData = [];
+  matrixRows.forEach((row) => {
+    const rowData = [];
+    const cells = row.querySelectorAll("td");
+    cells.forEach((cell) => {
+      const cellContent = cell.textContent.trim();
+      const backgroundImage = cell.style.backgroundImage;
+
+      if (backgroundImage && backgroundImage.includes("bomb-emoji")) {
+        rowData.push("M"); // Map bomb image to "M"
+      } else {
+        const cellValue = cellContent === "E" ? "E" : parseInt(cellContent, 10);
+        rowData.push(isNaN(cellValue) ? "E" : cellValue);
+      }
+    });
+    matrixData.push(rowData);
+  });
+  return { matrixData: matrixData };
+}
+function sendMatrixToServer(matrixData) {
+  // Convert the matrixData to a JSON string
+  const jsonData = JSON.stringify(matrixData);
+  // Set the JSON string as a cookie named 'matrixData'
+  document.cookie = `matrixData=${jsonData}`;
+}
+
+//  Logic for random button
+randomBtn.classList.add("random-btn");
+randomBtn.addEventListener("click", function () {
+  if (isBoardGenerated) {
+    const rows = document
+      .getElementById("matrix")
+      .querySelector("tbody").childElementCount;
+    const columns = document
+      .getElementById("matrix")
+      .querySelector("tr").childElementCount;
+    const mineCount = calculateMineCount(rows, columns);
+    createRandomMinesweeperBoard(rows, columns, mineCount);
+    flagCount = mineCount;
+    updateFlagDisplay();
+    attachCellListeners();
+  } else {
+    console.log("Please create the initial minesweeper table first.");
+  }
+});
+function calculateMineCount(rows, columns) {
+  // Adjust mine count based on difficulty levels
+  if (rows === 9 && columns === 9) {
+    return 10; // Easy mode
+  } else if (rows === 16 && columns === 16) {
+    return 40; // Intermediate mode
+  } else if (rows === 16 && columns === 30) {
+    return 99; // Expert mode
+  } else {
+    return Math.floor((rows * columns) / 5);
+  }
+}
+function createRandomMinesweeperBoard(rows, columns, mineCount) {
+  const matrix = document.getElementById("matrix").querySelector("tbody");
+
+  matrix.innerHTML = "";
+
+  const emptyMatrix = Array.from({ length: rows }, () =>
+    Array(columns).fill(0)
+  );
+
+  for (let i = 0; i < mineCount; i++) {
+    let row, col;
+    do {
+      row = Math.floor(Math.random() * rows);
+      col = Math.floor(Math.random() * columns);
+    } while (emptyMatrix[row][col] === 9); // 9 represents a mine
+
+    emptyMatrix[row][col] = 9; // Set mine
+  }
+
+  // Display the matrix on the table
+  for (let i = 0; i < rows; i++) {
+    const rowElement = matrix.insertRow();
+    for (let j = 0; j < columns; j++) {
+      const cellElement = rowElement.insertCell();
+      const cellValue = emptyMatrix[i][j];
+
+      // Display mines with 'M', and empty cells with ''
+      if (cellValue === 9) {
+        cellElement.style.backgroundImage =
+          'url("https://static-00.iconduck.com/assets.00/bomb-emoji-1959x2048-vuy7ly1m.png")';
+        cellElement.style.backgroundSize = "contain";
+        cellElement.innerHTML = ""; // Clear innerHTML to remove any text content
+      }
+    }
+  }
+}
+
+//
 
 function createDisplayElement(element, text, className = "") {
   const displayElement = document.createElement(element);
@@ -18,14 +125,17 @@ function createDisplayElement(element, text, className = "") {
 
 //  Pjesa kryesore per krijimin e board
 function createMinesweeperTable(rows, columns) {
+  console.log("Board created");
   const gameHeader = document.querySelector(".status-bar");
   const chooseAlgorithm = document.querySelector(".alg");
+  const functionalityButtons = document.querySelector(".functionality-buttons");
   const matrix = document.getElementById("matrix");
   const container = document.querySelector(".container");
 
   gameHeader.innerHTML = "";
   chooseAlgorithm.innerHTML = "";
   matrix.innerHTML = "";
+  functionalityButtons.innerHTML = "";
 
   const bfs = createDisplayElement("button", "BFS", "reset");
   const dfs = createDisplayElement("button", "DFS", "reset");
@@ -35,10 +145,13 @@ function createMinesweeperTable(rows, columns) {
   gameHeader.appendChild(timerDisplay);
   chooseAlgorithm.appendChild(dfs);
   chooseAlgorithm.appendChild(bfs);
+  functionalityButtons.appendChild(submitBtn);
+  functionalityButtons.appendChild(randomBtn);
 
   chooseAlgorithm.classList.remove("hidden");
   gameHeader.classList.remove("hidden");
   matrix.classList.remove("hidden");
+  functionalityButtons.classList.remove("hidden");
 
   const tbody = document.createElement("tbody");
 
@@ -54,6 +167,8 @@ function createMinesweeperTable(rows, columns) {
 
   const cellWidth = 22;
   container.style.width = `${columns * cellWidth + 20}px`;
+
+  isBoardGenerated = true;
 }
 
 // Krijimi i easy, intermediate, expert board based on the click
@@ -77,7 +192,7 @@ function initializeGame() {
   });
 
   document.getElementById("size-30").addEventListener("click", function () {
-    createMinesweeperTable(16, 32);
+    createMinesweeperTable(16, 30);
     container.classList.remove("hidden");
     flagCount = 99;
     updateFlagDisplay();
