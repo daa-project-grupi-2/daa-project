@@ -2,6 +2,11 @@ let flagCount;
 let isTimerRunning = false;
 let timeElapsed = 0;
 let timerInterval;
+<<<<<<< HEAD:frontend/minesweeper.js
+=======
+let isBoardGenerated = false;
+
+>>>>>>> 0fa675349cbee6d1f9584199e983764a946ceed5:minesweeper.js
 let isPlaying = false;
 let playInterval;
 let sampleMatrices = [];
@@ -12,6 +17,7 @@ let isBoardGenerated = false;
 let flagsDisplay = createDisplayElement("div", "000", "bomb-counter");
 let timerDisplay = createDisplayElement("div", "000", "timer");
 let emojiCell = createDisplayElement("button", "😀", "reset");
+<<<<<<< HEAD:frontend/minesweeper.js
 let next = createDisplayElement("button", "Next", "reset");
 let previous = createDisplayElement("button", "Previous", "reset");
 let play = createDisplayElement("button", "Play", "reset");
@@ -75,6 +81,10 @@ function sendMatrixToServer(matrixData) {
   // Set JSON string to a cookie
   document.cookie = `matrixData=${jsonData}`;
 }
+=======
+const randomBtn = createDisplayElement("button", "random", "reset");
+
+>>>>>>> 0fa675349cbee6d1f9584199e983764a946ceed5:minesweeper.js
 
 //  Logic for random button
 function randomMatrix() {
@@ -93,18 +103,26 @@ function randomMatrix() {
   } else {
     console.log("Please create the initial minesweeper table first.");
   }
+<<<<<<< HEAD:frontend/minesweeper.js
 }
+=======
+});
+
+>>>>>>> 0fa675349cbee6d1f9584199e983764a946ceed5:minesweeper.js
 function calculateMineCount(rows, columns) {
   if (rows === 9 && columns === 9) {
     return 10; // Easy mode
   } else if (rows === 16 && columns === 16) {
     return 40; // Intermediate mode
-  } else if (rows === 16 && columns === 30) {
+
+  } else if (rows === 16 && columns === 32) {
+
     return 99; // Expert mode
   } else {
     return Math.floor((rows * columns) / 5);
   }
 }
+
 function createRandomMinesweeperBoard(rows, columns, mineCount) {
   const matrix = document.getElementById("matrix").querySelector("tbody");
 
@@ -131,25 +149,48 @@ function createRandomMinesweeperBoard(rows, columns, mineCount) {
       const cellElement = rowElement.insertCell();
       const cellValue = emptyMatrix[i][j];
 
+<<<<<<< HEAD:frontend/minesweeper.js
       if (cellValue === 9) {
         cellElement.style.backgroundImage =
           'url("https://static-00.iconduck.com/assets.00/bomb-emoji-1959x2048-vuy7ly1m.png")';
         cellElement.style.backgroundSize = "contain";
         cellElement.innerHTML = "";
       }
+=======
+      // Display mines with 'M', and empty cells with ''
+
+      cellElement.textContent = cellValue === 9 ? "M" : "";
+>>>>>>> 0fa675349cbee6d1f9584199e983764a946ceed5:minesweeper.js
     }
   }
 }
 
+<<<<<<< HEAD:frontend/minesweeper.js
+=======
+
+function createDisplayElement(element, text, className = "") {
+  const displayElement = document.createElement(element);
+  displayElement.textContent = text;
+  if (className) {
+    displayElement.classList.add(className);
+  }
+ 
+  return displayElement;
+}
+
+>>>>>>> 0fa675349cbee6d1f9584199e983764a946ceed5:minesweeper.js
 //  Pjesa kryesore per krijimin e board
 function createMinesweeperTable(rows, columns) {
   clearGameData();
   const gameHeader = document.querySelector(".status-bar");
   const chooseAlgorithm = document.querySelector(".alg");
   const functionalityButtons = document.querySelector(".functionality-buttons");
+<<<<<<< HEAD:frontend/minesweeper.js
   const nextPrvBtn = document.querySelector(".next-previous-btn");
 
   console.log("Board created");
+=======
+>>>>>>> 0fa675349cbee6d1f9584199e983764a946ceed5:minesweeper.js
 
   const matrix = document.getElementById("matrix");
   const container = document.querySelector(".container");
@@ -158,8 +199,6 @@ function createMinesweeperTable(rows, columns) {
   chooseAlgorithm.innerHTML = "";
   matrix.innerHTML = "";
   functionalityButtons.innerHTML = "";
-
-  nextPrvBtn.innerHTML = "";
 
   const bfs = createDisplayElement("button", "BFS", "reset");
   const dfs = createDisplayElement("button", "DFS", "reset");
@@ -170,10 +209,13 @@ function createMinesweeperTable(rows, columns) {
   chooseAlgorithm.appendChild(dfs);
   chooseAlgorithm.appendChild(bfs);
   functionalityButtons.appendChild(submitBtn);
+<<<<<<< HEAD:frontend/minesweeper.js
   functionalityButtons.appendChild(play);
   nextPrvBtn.appendChild(next);
   nextPrvBtn.appendChild(previous);
   nextPrvBtn.appendChild(pause);
+=======
+>>>>>>> 0fa675349cbee6d1f9584199e983764a946ceed5:minesweeper.js
 
   functionalityButtons.appendChild(randomBtn);
 
@@ -181,7 +223,6 @@ function createMinesweeperTable(rows, columns) {
   gameHeader.classList.remove("hidden");
   matrix.classList.remove("hidden");
   functionalityButtons.classList.remove("hidden");
-  nextPrvBtn.classList.remove("hidden");
 
   const tbody = document.createElement("tbody");
 
@@ -197,7 +238,7 @@ function createMinesweeperTable(rows, columns) {
 
   const cellWidth = 24;
   container.style.width = `${columns * cellWidth + 20}px`;
-  attachButtonListeners();
+
 
   isBoardGenerated = true;
 }
