@@ -203,3 +203,38 @@ td {
   background-size: contain;
 }
 
+<<<<<<< HEAD:frontend/minesweeper.css
+
+.number-1 {
+  color: blue ;
+}
+
+.number-2 {
+  color: green;
+}
+
+.number-3 {
+  color: red;
+}
+.number-4 {
+  color: darkblue;
+}
+.number-5 {
+  color: darkred;
+}
+.number-6 {
+  color: rgb(33, 150, 245);
+}
+.number-7 {
+  color: black;
+}
+.number-8 {
+  color: grey;
+}
+
+td.opened-cell {
+  background-color: #b3aeae !important; /* Use !important to override any conflicting styles */
+  /* Text color for opened cells */
+}
+=======
+>>>>>>> 0fa675349cbee6d1f9584199e983764a946ceed5:minesweeper.css
