@@ -1,5 +1,5 @@
 <?php 
-echo " ";
+echo " ";   
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,7 +49,7 @@ echo " ";
       <div id="start"></div>
       <div id="size-btns">
         <div id="size-btns"><button id="size-9">Easy</button></div>
-        <div id="size-btns"><button id="size-16">Intermediate</button></div>
+        <div id="size-btns"><button id="size-16">Intermmediate</button></div>
         <div id="size-btns"><button id="size-30">Expert</button></div>
       </div>
     </section>
