@@ -203,8 +203,6 @@ td {
   background-size: contain;
 }
 
-<<<<<<< HEAD:frontend/minesweeper.css
-
 .number-1 {
   color: blue ;
 }
@@ -236,5 +234,3 @@ td.opened-cell {
   background-color: #b3aeae !important; /* Use !important to override any conflicting styles */
   /* Text color for opened cells */
 }
-=======
->>>>>>> 0fa675349cbee6d1f9584199e983764a946ceed5:minesweeper.css
