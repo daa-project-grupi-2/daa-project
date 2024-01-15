@@ -1,5 +1,6 @@
 <?php
-include 'algorithm.php';
+include 'solving_algorithm.php';
+include 'validate_matrix.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' || isset($_COOKIE['matrixData'])) {
     $json_data = isset($_POST['matrixData']) ? $_POST['matrixData'] : $_COOKIE['matrixData'];
@@ -9,6 +10,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || isset($_COOKIE['matrixData'])) {
     $matrix_data = json_decode($json_data, true);
 
     error_log("Decoded matrix data: " . print_r($matrix_data, true));
+
+    // Validating matrix
+    if(!isValidMinesweeperMtx($matrix_data)){
+        error_log("Matrix is not valid!");
+    }
 
     if ($matrix_data !== null && isset($matrix_data['matrixData'])) {
         // Access the matrix data
