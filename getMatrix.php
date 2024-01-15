@@ -1,4 +1,5 @@
 <?php
+include 'algorithm.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' || isset($_COOKIE['matrixData'])) {
     $json_data = isset($_POST['matrixData']) ? $_POST['matrixData'] : $_COOKIE['matrixData'];
@@ -19,6 +20,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || isset($_COOKIE['matrixData'])) {
             echo implode("\t", $row) . "\n";
         }
         echo ("\n\n");
+
+        // Writing matrix to JSON
+        write_to_json_file($matrix_data, 'DFS');
+        
 
         header('Content-Type: application/json');
         // --> Per JSON nese nevojitet e shtojme edhe rreshtin 25.

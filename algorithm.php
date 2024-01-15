@@ -5,8 +5,6 @@ $adjacents = [
     [1, 0], [-1, 0], [-1, 1], [1, -1]
 ];
 
-$mode = 'DFS';
-
 function explore(&$mat, $row, $col)
 {
     global $adjacents;
@@ -34,9 +32,8 @@ function explore(&$mat, $row, $col)
     }
 }
 
-function minesweeperRound($matrix)
+function minesweeperRound($matrix, $mode)
 {
-    global $mode;
     $click = [];
 
     $rows = count($matrix);
@@ -81,11 +78,11 @@ function isGameFinished($matrix)
     return true;
 }
 
-function solveMinesweeper($matrix)
+function solveMinesweeper($matrix, $mode)
 {
     $steps = [];
     while (!isGameFinished($matrix)) {
-        [$currentMat, $click] = minesweeperRound($matrix);
+        [$currentMat, $click] = minesweeperRound($matrix, $mode);
         $matrix = $currentMat;
         $steps[] = ['matrix' => $matrix, 'click' => $click];
     }
@@ -164,19 +161,6 @@ $mat =  [
 //     ['M', 'M', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E'],
 //     ['E', 'E', 'M', 'E', 'E', 'M', 'E', 'E', 'M', 'E', 'E', 'M', 'E', 'E', 'M', 'E', 'E', 'E', 'M', 'E', 'E', 'E', 'M', 'E', 'E', 'E', 'E', 'M', 'E', 'E'],
 // ];
-$solvedSteps = solveMinesweeper($mat);
-
-//--------------------------------------------------------------------------------------------------------------------------------
-
-
-//Vendosja ne fajllin json e solvedSteps, qe permban gjendjen e matrices ne cdo hap dhe klikun e nevojshem per ate gjendje
-$json_solution = json_encode($solvedSteps,JSON_PRETTY_PRINT);
-file_put_contents('solution.json',$json_solution); 
-
-//Kodi i meposhtem perdoret per testim, per te pare a eshte ne rregull komunikimi get dhe put data ne jSon, qe ne fakt eshte ne rregull
-//Pra lirisht mund te fshihet kur FrontEnd merr dhe perpunon te dhenat nga jSon duke perdorur kodin e ngjashem si me poshte
-$json_data = file_get_contents('solution.json');
-$decoded_data = json_decode($json_data,true);
 
 
 //Ne koment eshte kodi i cili perdoret per fetching te te dhenave nga JSON, te perdorur nga FrontEnd dhe 
@@ -202,18 +186,34 @@ $decoded_data = json_decode($json_data,true);
 // }
 
 
-echo "Initial Matrix:<br>";
-printMinesweeper($mat, count($mat) - 1, count($mat[0]) - 1, null);
+// echo "Initial Matrix:<br>";
+// printMinesweeper($mat, count($mat) - 1, count($mat[0]) - 1, null);
 
-echo "<br><br>Solved Matrix:<br>";
+// echo "<br><br>Solved Matrix:<br>";
 
-foreach ($solvedSteps as $step) {
-    $lastRow = count($step['matrix']) - 1;
-    $lastCol = count($step['matrix'][0]) - 1;
-    printMinesweeper($step['matrix'], $lastRow, $lastCol, $step['click']);
-    echo "<br><br>";
+// foreach ($solvedSteps as $step) {
+//     $lastRow = count($step['matrix']) - 1;
+//     $lastCol = count($step['matrix'][0]) - 1;
+//     printMinesweeper($step['matrix'], $lastRow, $lastCol, $step['click']);
+//     echo "<br><br>";
+// }
+
+
+function write_to_json_file($mat, $mode){
+    $solvedSteps = solveMinesweeper($mat, $mode);
+
+    //--------------------------------------------------------------------------------------------------------------------------------
+
+
+    //Vendosja ne fajllin json e solvedSteps, qe permban gjendjen e matrices ne cdo hap dhe klikun e nevojshem per ate gjendje
+    $json_solution = json_encode($solvedSteps, JSON_PRETTY_PRINT);
+    file_put_contents('solution.json', $json_solution);
+    file_put_contents('solution.json', $json_solution); 
+
+    //Kodi i meposhtem perdoret per testim, per te pare a eshte ne rregull komunikimi get dhe put data ne jSon, qe ne fakt eshte ne rregull
+    //Pra lirisht mund te fshihet kur FrontEnd merr dhe perpunon te dhenat nga jSon duke perdorur kodin e ngjashem si me poshte
+    $json_data = file_get_contents('solution.json');
+    $decoded_data = json_decode($json_data, true);
 }
-
-
 
 ?>
