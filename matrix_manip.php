@@ -2,7 +2,7 @@
 include 'solving_algorithm.php';
 include 'validate_matrix.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' || isset($_COOKIE['matrixData'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' || (isset($_COOKIE['matrixData']) && isset($_COOKIE['algorithm']))) {
     $json_data = isset($_POST['matrixData']) ? $_POST['matrixData'] : $_COOKIE['matrixData'];
 
     error_log("Received JSON data: " . $json_data);
@@ -29,7 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || isset($_COOKIE['matrixData'])) {
 
         // Writing matrix to JSON
         // This part will need to be fixed so as to accept the mode
-        write_to_json_file($matrix_data, 'BFS');
+        $mode = $_COOKIE['algorithm'];
+        write_to_json_file($matrix_data, $mode);
         
 
         header('Content-Type: application/json');

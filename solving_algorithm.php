@@ -207,7 +207,7 @@ function write_to_json_file($mat, $mode){
 
     //Vendosja ne fajllin json e solvedSteps, qe permban gjendjen e matrices ne cdo hap dhe klikun e nevojshem per ate gjendje
     $json_solution = json_encode($solvedSteps, JSON_PRETTY_PRINT);
-    file_put_contents('solution.json', $json_solution);
+    file_put_contents('solution.json', "");
     file_put_contents('solution.json', $json_solution); 
 
     //Kodi i meposhtem perdoret per testim, per te pare a eshte ne rregull komunikimi get dhe put data ne jSon, qe ne fakt eshte ne rregull

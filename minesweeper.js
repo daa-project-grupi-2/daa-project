@@ -74,6 +74,7 @@ function sendMatrixToServer(matrixData) {
   const jsonData = JSON.stringify(matrixData);
   // Set JSON string to a cookie
   document.cookie = `matrixData=${jsonData}`;
+  document.cookie = "algorithm=DFS"
 }
 
 //  Logic for random button
