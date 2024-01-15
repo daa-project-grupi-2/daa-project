@@ -2,7 +2,6 @@
 include 'solving_algorithm.php';
 include 'validate_matrix.php';
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' || isset($_COOKIE['matrixData'])) {
     $json_data = isset($_POST['matrixData']) ? $_POST['matrixData'] : $_COOKIE['matrixData'];
 
@@ -29,8 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || isset($_COOKIE['matrixData'])) {
         echo ("\n\n");
 
         // Writing matrix to JSON
-        // This part will need to be fixed
-        write_to_json_file($matrix_data, 'DFS');
+        // This part will need to be fixed so as to accept the mode
+        write_to_json_file($matrix_data, 'BFS');
         
 
         header('Content-Type: application/json');
