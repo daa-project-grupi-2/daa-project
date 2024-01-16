@@ -21,12 +21,27 @@ let submitBtn = createDisplayElement("button", "Submit", "reset");
 
 randomBtn.classList.add("random-btn");
 
+//Get solution after submit without executing matrix_manip.php manually
+function ajaxCallMatrix() {
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      // Do nothing with the response
+    }
+  };
+  xmlhttp.open("GET", "matrix_manip.php", true);
+  xmlhttp.send();
+}
+
 // EventListeners
 function attachButtonListeners() {
   next.addEventListener("click", showNextStep);
   previous.addEventListener("click", showPreviousStep);
-  submitBtn.addEventListener("click", submitAndFetch);
-  submitBtn.addEventListener("click", sendData);
+  submitBtn.addEventListener("click", function () {
+    sendData();
+    submitAndFetch();
+    currentStepIndex = 0;
+  });
   play.addEventListener("click", playButtonListener);
   pause.addEventListener("click", puaseListener);
   randomBtn.addEventListener("click", randomMatrix);
@@ -74,7 +89,7 @@ function sendMatrixToServer(matrixData) {
   const jsonData = JSON.stringify(matrixData);
   // Set JSON string to a cookie
   document.cookie = `matrixData=${jsonData}`;
-  document.cookie = "algorithm=DFS"
+  document.cookie = "algorithm=DFS";
 }
 
 //  Logic for random button
@@ -399,38 +414,38 @@ function showPreviousStep() {
 }
 
 function submitAndFetch() {
-  fetchGameSolution()
-    .then(() => {
-      console.log(isPlaying);
-      console.log(sampleMatrices.length);
-      console.log(currentStepIndex);
-      console.log(playInterval);
-    })
-    .catch((error) => {
-      console.error("Error fetching game solution:", error);
-    });
+  ajaxCallMatrix();
+  setTimeout(() => {
+    fetchGameSolution()
+      .then(() => {
+        console.log(isPlaying);
+        console.log(sampleMatrices.length);
+        console.log(currentStepIndex);
+        console.log(playInterval);
+      })
+      .catch((error) => {
+        console.error("Error fetching game solution:", error);
+      });
+  }, 1000); // Adjust the delay as needed
 }
 
-function fetchGameSolution() {
-  return fetch("solution.json")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      console.log("JSON data successfully fetched:", data);
+async function fetchGameSolution() {
+  try {
+    const response = await fetch("solution.json");
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    console.log("JSON data successfully fetched:", data);
 
-      sampleMatrices = [];
+    sampleMatrices = [];
 
-      data.forEach((step) => {
-        sampleMatrices.push(step.matrix);
-      });
-    })
-    .catch((error) => {
-      console.error("There was a problem with the fetch operation:", error);
+    data.forEach((step) => {
+      sampleMatrices.push(step.matrix);
     });
+  } catch (error) {
+    console.error("There was a problem with the fetch operation:", error);
+  }
 }
 
 function playButtonListener() {
