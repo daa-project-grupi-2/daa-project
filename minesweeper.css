@@ -195,7 +195,7 @@ td {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 120px;
+  margin-top: 20px;
 }
 
 .flag {
@@ -204,7 +204,7 @@ td {
 }
 
 .number-1 {
-  color: blue ;
+  color: blue;
 }
 
 .number-2 {
@@ -233,4 +233,9 @@ td {
 td.opened-cell {
   background-color: #b3aeae !important; /* Use !important to override any conflicting styles */
   /* Text color for opened cells */
+}
+
+.locked {
+  background-color: lightgray;
+  color: slategray;
 }
