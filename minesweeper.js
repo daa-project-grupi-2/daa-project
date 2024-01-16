@@ -23,12 +23,163 @@ let submitBtn = createDisplayElement("button", "Submit", "reset");
 
 
 let isBoardGenerated = false;
+<<<<<<< Updated upstream
 
 let flagsDisplay = createDisplayElement("div", "000", "bomb-counter");
 let timerDisplay = createDisplayElement("div", "000", "timer");
 let emojiCell = createDisplayElement("button", "😀", "reset");
 const randomBtn = createDisplayElement("button", "random", "reset");
 
+=======
+let algorithm;
+let currentMode;
+
+let flagsDisplay = createDisplayElement("div", "000", "bomb-counter");
+let timerDisplay = createDisplayElement("div", "000", "timer");
+let reset = createDisplayElement("button", "😀", "reset");
+let next = createDisplayElement("button", "Next", "reset");
+let previous = createDisplayElement("button", "Previous", "reset");
+let play = createDisplayElement("button", "Play", "reset");
+let pause = createDisplayElement("button", "Pause", "reset");
+let randomBtn = createDisplayElement("button", "Random", "reset");
+let submitBtn = createDisplayElement("button", "Submit", "reset");
+let bfs = createDisplayElement("button", "BFS", "reset");
+let dfs = createDisplayElement("button", "DFS", "reset");
+
+randomBtn.classList.add("random-btn");
+
+//Get solution after submit without executing matrix_manip.php manually
+function ajaxCallMatrix() {
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      // Do nothing with the response
+    }
+  };
+  xmlhttp.open("GET", "matrix_manip.php", true);
+  xmlhttp.send();
+}
+
+function bfsListener() {
+  algorithm = "BFS";
+  console.log("BFS clicked");
+  bfs.classList.add("locked");
+  dfs.classList.remove("locked");
+}
+
+function dfsListener() {
+  algorithm = "DFS";
+  console.log("DFS clicked");
+  dfs.classList.add("locked");
+  bfs.classList.remove("locked");
+}
+
+// EventListeners
+function attachButtonListeners() {
+  next.addEventListener("click", showNextStep);
+  previous.addEventListener("click", showPreviousStep);
+  submitBtn.addEventListener("click", submitListener);
+  play.addEventListener("click", playButtonListener);
+  pause.addEventListener("click", puaseListener);
+  randomBtn.addEventListener("click", randomMatrix);
+  bfs.addEventListener("click", bfsListener);
+  dfs.addEventListener("click", dfsListener);
+  reset.addEventListener("click", restartGame);
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "p" || event.key === "P") {
+      if (!isPlaying) {
+        startPlaying();
+      } else {
+        stopPlaying();
+      }
+    }
+  });
+}
+
+function submitListener() {
+  sendData();
+  submitAndFetch();
+  currentStepIndex = 0;
+}
+
+function restartGame() {
+  console.log("Reset clicked");
+
+  clearGameData();
+  stopTimer();
+
+  // Reset variables
+  flagCount = 0;
+  isTimerRunning = false;
+  timeElapsed = 0;
+  clearInterval(timerInterval);
+  isPlaying = false;
+  clearInterval(playInterval);
+  sampleMatrices = [];
+  minesweeperMatrix = [];
+  currentStepIndex = 0;
+  isBoardGenerated = false;
+
+  timerDisplay.textContent = "000";
+
+  document.getElementById("matrix").innerHTML = "";
+
+  if (currentMode === "easy") {
+    createMinesweeperTable(9, 9);
+    flagCount = 10;
+    updateFlagDisplay();
+    attachCellListeners();
+  } else if (currentMode === "intermediate") {
+    createMinesweeperTable(16, 16);
+    flagCount = 40;
+    updateFlagDisplay();
+    attachCellListeners();
+  } else {
+    createMinesweeperTable(16, 30);
+    flagCount = 99;
+    updateFlagDisplay();
+    attachCellListeners();
+  }
+
+  initializeGame();
+}
+
+// Logic for submit button
+function sendData() {
+  const matrixData = getMatrixData();
+  console.log(matrixData);
+  sendMatrixToServer(matrixData, algorithm);
+}
+
+function getMatrixData() {
+  const matrixRows = document.querySelectorAll("#matrix tbody tr");
+  const matrixData = [];
+  matrixRows.forEach((row) => {
+    const rowData = [];
+    const cells = row.querySelectorAll("td");
+    cells.forEach((cell) => {
+      const cellContent = cell.textContent.trim();
+      const backgroundImage = cell.style.backgroundImage;
+
+      if (backgroundImage && backgroundImage.includes("bomb-emoji")) {
+        rowData.push("M");
+      } else {
+        const cellValue = cellContent === "E" ? "E" : parseInt(cellContent, 10);
+        rowData.push(isNaN(cellValue) ? "E" : cellValue);
+      }
+    });
+    matrixData.push(rowData);
+  });
+  return { matrixData: matrixData };
+}
+function sendMatrixToServer(matrixData, algorithm) {
+  const jsonData = JSON.stringify(matrixData);
+  // Set JSON string to a cookie
+  document.cookie = `matrixData=${jsonData}`;
+  document.cookie = `algorithm=${algorithm}`;
+}
+>>>>>>> Stashed changes
 
 //  Logic for random button
 randomBtn.classList.add("random-btn");
@@ -129,8 +280,13 @@ function createMinesweeperTable(rows, columns) {
   const dfs = createDisplayElement("button", "DFS", "reset");
   
 
+<<<<<<< Updated upstream
   gameHeader.appendChild(flagsDisplay); // Append flagsDisplay to gameHeader
   gameHeader.appendChild(emojiCell);
+=======
+  gameHeader.appendChild(flagsDisplay);
+  gameHeader.appendChild(reset);
+>>>>>>> Stashed changes
   gameHeader.appendChild(timerDisplay);
   chooseAlgorithm.appendChild(dfs);
   chooseAlgorithm.appendChild(bfs);
@@ -176,6 +332,7 @@ function initializeGame() {
     flagCount = 10;
     updateFlagDisplay();
     attachCellListeners();
+    currentMode = "easy";
   });
 
   document.getElementById("size-16").addEventListener("click", function () {
@@ -185,6 +342,7 @@ function initializeGame() {
     flagCount = 40;
     updateFlagDisplay();
     attachCellListeners();
+    currentMode = "intermediate";
   });
 
   document.getElementById("size-30").addEventListener("click", function () {
@@ -193,6 +351,7 @@ function initializeGame() {
     flagCount = 99;
     updateFlagDisplay();
     attachCellListeners();
+    currentMode = "expert";
   });
 }
 
@@ -204,7 +363,13 @@ function clearGameData() {
   if(submitButtonListener) {
     play.removeEventListener('click', submitButtonListener);
   }
+<<<<<<< Updated upstream
   
+=======
+  if (submitListener) {
+    submitBtn.removeEventListener("click", submitListener);
+  }
+>>>>>>> Stashed changes
 }
 // TODO: Timer
 /*  Timer Functions  */
@@ -264,10 +429,13 @@ function updateMinesweeperCells(matrix) {
   
 }
 
+<<<<<<< Updated upstream
 
 }
 
 
+=======
+>>>>>>> Stashed changes
 function playStepsAutomatically() {
   console.log("Before automatic play", sampleMatrices.length, currentStepIndex);
   if (sampleMatrices.length > 0 && currentStepIndex + 1 < sampleMatrices.length) {
