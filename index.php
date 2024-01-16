@@ -35,12 +35,12 @@ if(file_exists($filename)){
             <p>After selecting the difficulty level, press the "Random" button to generate a random arrangement of mines on the game board.</p>
         </li>
         <li>
-            <strong>Submit Your Board:</strong>
-            <p>Once you're satisfied with the bomb placement, press the "Submit" button to submit the current state of the game board. This board, represented by <code>'E'</code> for empty cells and <code>'M'</code> for mines, will be sent to the algorithm for processing.</p>
-        </li>
-        <li>
             <strong>Choose Algorithm:</strong>
             <p>Press either the "BFS" or "DFS" button to choose the algorithm for the computer to use. Both algorithms will attempt to solve the Minesweeper puzzle based on the submitted board.</p>
+        </li>
+        <li>
+            <strong>Submit Your Board:</strong>
+            <p>Once you're satisfied with the bomb placement, press the "Submit" button to submit the current state of the game board. This board, represented by <code>'E'</code> for empty cells and <code>'M'</code> for mines, will be sent to the algorithm for processing.</p>
         </li>
         <li>
             <strong>Play/Pause:</strong>
@@ -49,10 +49,6 @@ if(file_exists($filename)){
         <li>
             <strong>Next/Previous Steps:</strong>
             <p>If you prefer to see the game step by step, use the "Next" and "Previous" buttons to navigate through each move made by the computer.</p>
-        </li>
-        <li>
-            <strong>Flagging Cells:</strong>
-            <p>During the game, you can flag cells by right-clicking on them. This helps you mark potential mine locations.</p>
         </li>
         <li>
             <strong>Enjoy and Learn:</strong>

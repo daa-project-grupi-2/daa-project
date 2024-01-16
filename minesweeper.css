@@ -254,7 +254,7 @@ td.opened-cell {
 
 .modal-content {
   background-color: #fefefe;
-  margin: 15% auto;
+  margin: 5% auto 0; 
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
@@ -280,5 +280,5 @@ td.opened-cell {
 
 #howToPlayButton {
   margin-top: 4.5px;
-  margin-right: 25px; /* Adjust the margin as needed */
+  margin-right: 25px; 
 }
