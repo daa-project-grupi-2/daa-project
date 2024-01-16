@@ -469,5 +469,25 @@ function playButtonListener() {
     startPlaying();
   }
 }
+//how to play button
+// Add this script at the end of your existing script
+document.addEventListener("DOMContentLoaded", function() {
+  var howToPlayButton = document.getElementById("howToPlayButton");
+  var howToPlayModal = document.getElementById("howToPlayModal");
+  var closeButton = document.getElementsByClassName("close")[0];
 
+  howToPlayButton.addEventListener("click", function() {
+    howToPlayModal.style.display = "block";
+  });
+
+  closeButton.addEventListener("click", function() {
+    howToPlayModal.style.display = "none";
+  });
+
+  window.addEventListener("click", function(event) {
+    if (event.target == howToPlayModal) {
+      howToPlayModal.style.display = "none";
+    }
+  });
+});
 initializeGame();
