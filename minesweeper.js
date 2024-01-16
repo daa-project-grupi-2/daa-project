@@ -470,7 +470,6 @@ function playButtonListener() {
   }
 }
 //how to play button
-// Add this script at the end of your existing script
 document.addEventListener("DOMContentLoaded", function() {
   var howToPlayButton = document.getElementById("howToPlayButton");
   var howToPlayModal = document.getElementById("howToPlayModal");

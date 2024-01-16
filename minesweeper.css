@@ -239,7 +239,7 @@ td.opened-cell {
   background-color: lightgray;
   color: slategray;
 }
-/* Add this CSS for the modal styling */
+/* Modal Styling */
 .modal {
   display: none;
   position: fixed;
@@ -274,7 +274,6 @@ td.opened-cell {
   cursor: pointer;
 }
 
-/* Add this CSS to position the "How to Play" button to the most right side of the footer */
 #footer {
   text-align: right;
 }
