@@ -412,6 +412,7 @@ function showPreviousStep() {
 
 function submitAndFetch() {
   ajaxCallMatrix();
+  // Continue with the fetch operation after the delay
   fetchGameSolution()
     .then(() => {
       console.log(isPlaying);
@@ -424,26 +425,23 @@ function submitAndFetch() {
     });
 }
 
-function fetchGameSolution() {
-  return fetch("solution.json")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      console.log("JSON data successfully fetched:", data);
+async function fetchGameSolution() {
+  try {
+    const response = await fetch("solution.json");
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    console.log("JSON data successfully fetched:", data);
 
-      sampleMatrices = [];
+    sampleMatrices = [];
 
-      data.forEach((step) => {
-        sampleMatrices.push(step.matrix);
-      });
-    })
-    .catch((error) => {
-      console.error("There was a problem with the fetch operation:", error);
+    data.forEach((step) => {
+      sampleMatrices.push(step.matrix);
     });
+  } catch (error) {
+    console.error("There was a problem with the fetch operation:", error);
+  }
 }
 
 function playButtonListener() {
