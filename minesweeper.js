@@ -21,6 +21,18 @@ let submitBtn = createDisplayElement("button", "Submit", "reset");
 
 randomBtn.classList.add("random-btn");
 
+//Get solution after submit without executing matrix_manip.php manually
+function ajaxCallMatrix() {
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      // Do nothing with the response
+    }
+  };
+  xmlhttp.open("GET", "matrix_manip.php", true);
+  xmlhttp.send();
+}
+
 // EventListeners
 function attachButtonListeners() {
   next.addEventListener("click", showNextStep);
@@ -74,7 +86,7 @@ function sendMatrixToServer(matrixData) {
   const jsonData = JSON.stringify(matrixData);
   // Set JSON string to a cookie
   document.cookie = `matrixData=${jsonData}`;
-  document.cookie = "algorithm=DFS"
+  document.cookie = "algorithm=DFS";
 }
 
 //  Logic for random button
@@ -399,6 +411,7 @@ function showPreviousStep() {
 }
 
 function submitAndFetch() {
+  ajaxCallMatrix();
   fetchGameSolution()
     .then(() => {
       console.log(isPlaying);

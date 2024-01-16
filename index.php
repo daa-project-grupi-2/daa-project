@@ -1,6 +1,9 @@
 <?php 
 echo " ";   
-unlink("solution.json");
+$filename = "solution.json";
+if(file_exists($filename)){
+  unlink("solution.json");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
