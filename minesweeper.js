@@ -40,6 +40,7 @@ function attachButtonListeners() {
   submitBtn.addEventListener("click", function () {
     sendData();
     submitAndFetch();
+    currentStepIndex = 0;
   });
   play.addEventListener("click", playButtonListener);
   pause.addEventListener("click", puaseListener);
