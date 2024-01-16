@@ -414,17 +414,18 @@ function showPreviousStep() {
 
 function submitAndFetch() {
   ajaxCallMatrix();
-  // Continue with the fetch operation after the delay
-  fetchGameSolution()
-    .then(() => {
-      console.log(isPlaying);
-      console.log(sampleMatrices.length);
-      console.log(currentStepIndex);
-      console.log(playInterval);
-    })
-    .catch((error) => {
-      console.error("Error fetching game solution:", error);
-    });
+  setTimeout(() => {
+    fetchGameSolution()
+      .then(() => {
+        console.log(isPlaying);
+        console.log(sampleMatrices.length);
+        console.log(currentStepIndex);
+        console.log(playInterval);
+      })
+      .catch((error) => {
+        console.error("Error fetching game solution:", error);
+      });
+  }, 1000); // Adjust the delay as needed
 }
 
 async function fetchGameSolution() {
