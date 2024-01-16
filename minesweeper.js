@@ -37,8 +37,10 @@ function ajaxCallMatrix() {
 function attachButtonListeners() {
   next.addEventListener("click", showNextStep);
   previous.addEventListener("click", showPreviousStep);
-  submitBtn.addEventListener("click", submitAndFetch);
-  submitBtn.addEventListener("click", sendData);
+  submitBtn.addEventListener("click", function () {
+    sendData();
+    submitAndFetch();
+  });
   play.addEventListener("click", playButtonListener);
   pause.addEventListener("click", puaseListener);
   randomBtn.addEventListener("click", randomMatrix);
