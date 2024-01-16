@@ -8,6 +8,7 @@ let sampleMatrices = [];
 let minesweeperMatrix = [];
 let currentStepIndex = 0;
 let isBoardGenerated = false;
+let algorithm;
 
 let flagsDisplay = createDisplayElement("div", "000", "bomb-counter");
 let timerDisplay = createDisplayElement("div", "000", "timer");
@@ -18,6 +19,8 @@ let play = createDisplayElement("button", "Play", "reset");
 let pause = createDisplayElement("button", "Pause", "reset");
 let randomBtn = createDisplayElement("button", "Random", "reset");
 let submitBtn = createDisplayElement("button", "Submit", "reset");
+let bfs = createDisplayElement("button", "BFS", "reset");
+let dfs = createDisplayElement("button", "DFS", "reset");
 
 randomBtn.classList.add("random-btn");
 
@@ -33,6 +36,20 @@ function ajaxCallMatrix() {
   xmlhttp.send();
 }
 
+function bfsListener() {
+  algorithm = "BFS";
+  console.log("BFS clicked");
+  bfs.classList.add("locked");
+  dfs.classList.remove("locked");
+}
+
+function dfsListener() {
+  algorithm = "DFS";
+  console.log("DFS clicked");
+  dfs.classList.add("locked");
+  bfs.classList.remove("locked");
+}
+
 // EventListeners
 function attachButtonListeners() {
   next.addEventListener("click", showNextStep);
@@ -45,6 +62,8 @@ function attachButtonListeners() {
   play.addEventListener("click", playButtonListener);
   pause.addEventListener("click", puaseListener);
   randomBtn.addEventListener("click", randomMatrix);
+  bfs.addEventListener("click", bfsListener);
+  dfs.addEventListener("click", dfsListener);
 
   document.addEventListener("keydown", function (event) {
     if (event.key === "p" || event.key === "P") {
@@ -61,7 +80,7 @@ function attachButtonListeners() {
 function sendData() {
   const matrixData = getMatrixData();
   console.log(matrixData);
-  sendMatrixToServer(matrixData);
+  sendMatrixToServer(matrixData, algorithm);
 }
 
 function getMatrixData() {
@@ -85,11 +104,11 @@ function getMatrixData() {
   });
   return { matrixData: matrixData };
 }
-function sendMatrixToServer(matrixData) {
+function sendMatrixToServer(matrixData, algorithm) {
   const jsonData = JSON.stringify(matrixData);
   // Set JSON string to a cookie
   document.cookie = `matrixData=${jsonData}`;
-  document.cookie = "algorithm=DFS";
+  document.cookie = `algorithm=${algorithm}`;
 }
 
 //  Logic for random button
@@ -176,9 +195,6 @@ function createMinesweeperTable(rows, columns) {
   functionalityButtons.innerHTML = "";
 
   nextPrvBtn.innerHTML = "";
-
-  const bfs = createDisplayElement("button", "BFS", "reset");
-  const dfs = createDisplayElement("button", "DFS", "reset");
 
   gameHeader.appendChild(flagsDisplay);
   gameHeader.appendChild(emojiCell);
