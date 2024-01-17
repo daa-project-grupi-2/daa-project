@@ -330,6 +330,7 @@ function updateMinesweeperCells(matrix) {
   }
 }
 function playStepsAutomatically() {
+  console.log("Before automatic play", sampleMatrices.length, currentStepIndex);
   if (
     sampleMatrices.length > 0 &&
     currentStepIndex + 1 < sampleMatrices.length
@@ -338,6 +339,11 @@ function playStepsAutomatically() {
 
     minesweeperMatrix = sampleMatrices[currentStepIndex];
     updateMinesweeperCells(minesweeperMatrix);
+    console.log(
+      "After automatic play",
+      sampleMatrices.length,
+      currentStepIndex
+    );
   } else {
     console.log("This is printed");
     stopPlaying();

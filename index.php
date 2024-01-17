@@ -1,6 +1,6 @@
 <?php 
 echo " ";   
-// unlink("solution.json");
+unlink("solution.json");
 ?>
 <!DOCTYPE html>
 <html lang="en">
