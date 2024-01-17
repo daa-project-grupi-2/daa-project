@@ -458,7 +458,7 @@ function playStepsAutomatically() {
 
 function startPlaying() {
   isPlaying = true;
-  console.log("Stert playing function");
+  console.log("Start playing function");
   if (currentMode === "easy") {
     stepInterval(120);
   } else if (currentMode === "intermediate") {
