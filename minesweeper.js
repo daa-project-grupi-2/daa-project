@@ -565,5 +565,23 @@ function clearCookies(){
   }
 }
 
+document.addEventListener("DOMContentLoaded", function() {
+  var howToPlayButton = document.getElementById("howToPlayButton");
+  var howToPlayModal = document.getElementById("howToPlayModal");
+  var closeButton = document.getElementsByClassName("close")[0];
+
+  howToPlayButton.addEventListener("click", function() {
+    howToPlayModal.style.display = "block";
+  });
+  closeButton.addEventListener("click", function() {
+    howToPlayModal.style.display = "none";
+  });
+  window.addEventListener("click", function(event) {
+    if(event.target == howToPlayModal){
+      howToPlayModal.style.display = "none";
+    }
+  });
+});
+
 clearCookies();
 initializeGame();
