@@ -107,17 +107,14 @@ function restartGame() {
     createMinesweeperTable(9, 9);
     flagCount = 10;
     updateFlagDisplay();
-    attachCellListeners();
   } else if (currentMode === "intermediate") {
     createMinesweeperTable(16, 16);
     flagCount = 40;
     updateFlagDisplay();
-    attachCellListeners();
   } else {
     createMinesweeperTable(16, 30);
     flagCount = 99;
     updateFlagDisplay();
-    attachCellListeners();
   }
   initializeGame();
 }
@@ -171,7 +168,6 @@ function randomMatrix() {
     createRandomMinesweeperBoard(rows, columns, mineCount);
     flagCount = mineCount;
     updateFlagDisplay();
-    attachCellListeners();
   } else {
     console.log("Please create the initial minesweeper table first.");
   }
@@ -292,7 +288,7 @@ function initializeGame() {
     container.classList.remove("hidden");
     flagCount = 10;
     updateFlagDisplay();
-    attachCellListeners();
+
     currentMode = "easy";
   });
 
@@ -301,7 +297,7 @@ function initializeGame() {
     container.classList.remove("hidden");
     flagCount = 40;
     updateFlagDisplay();
-    attachCellListeners();
+
     currentMode = "intermediate";
   });
 
@@ -310,7 +306,7 @@ function initializeGame() {
     container.classList.remove("hidden");
     flagCount = 99;
     updateFlagDisplay();
-    attachCellListeners();
+
     currentMode = "expert";
   });
 }
@@ -326,6 +322,8 @@ function createDisplayElement(element, text, className = "") {
 }
 
 function clearGameData() {
+  timeElapsed = 0;
+  timerDisplay.textContent = "000";
   sampleMatrices = [];
   currentStepIndex = 0;
   isPlaying = false;
@@ -372,13 +370,11 @@ function updateMinesweeperCells(matrix) {
 
       if (cellValue === "E" || cellValue === "M") {
         cellElement.textContent = "";
-      } 
-      else if (Number.isInteger(parseInt(cellValue))) {
+      } else if (Number.isInteger(parseInt(cellValue))) {
         cellElement.textContent = cellValue;
         cellElement.classList.add("opened-cell");
         cellElement.classList.add("number-" + cellValue);
-      } 
-      else {
+      } else {
         cellElement.textContent = "";
         cellElement.classList.add("opened-cell");
       }
@@ -386,7 +382,7 @@ function updateMinesweeperCells(matrix) {
   }
 }
 
-function updateMinesweeperFlags(matrix){
+function updateMinesweeperFlags(matrix) {
   const tbody = document.querySelector("#matrix tbody");
   tbody.innerHTML = "";
   for (let i = 0; i < matrix.length; i++) {
@@ -394,18 +390,15 @@ function updateMinesweeperFlags(matrix){
     for (let j = 0; j < matrix[i].length; j++) {
       const cellElement = rowElement.insertCell();
       const cellValue = matrix[i][j];
-      if(cellValue === "M"){
+      if (cellValue === "M") {
         cellElement.classList.add("flag");
-      }
-      else if (cellValue === "E") {
+      } else if (cellValue === "E") {
         cellElement.textContent = "";
-      } 
-      else if (Number.isInteger(parseInt(cellValue))) {
+      } else if (Number.isInteger(parseInt(cellValue))) {
         cellElement.textContent = cellValue;
         cellElement.classList.add("opened-cell");
         cellElement.classList.add("number-" + cellValue);
-      } 
-      else {
+      } else {
         cellElement.textContent = "";
         cellElement.classList.add("opened-cell");
       }
@@ -432,23 +425,22 @@ function playStepsAutomatically() {
     updateMinesweeperFlags(minesweeperMatrix);
     console.log("This is printed");
     stopPlaying();
+    stopTimer();
   }
 }
 
 function startPlaying() {
   isPlaying = true;
   console.log("Stert playing function");
-  if(currentMode === 'easy'){
+  if (currentMode === "easy") {
     stepInterval(120);
-  }
-  else if(currentMode === 'intermediate') {
+  } else if (currentMode === "intermediate") {
     stepInterval(70);
-  }
-  else {
+  } else {
     stepInterval(50);
   }
 }
-function stepInterval(intervalTime){
+function stepInterval(intervalTime) {
   playInterval = setInterval(() => {
     console.log("Interval Triggered");
     try {
@@ -513,6 +505,7 @@ function showNextStep() {
 function puaseListener() {
   if (isPlaying) {
     stopPlaying();
+    stopTimer();
   }
 }
 
@@ -566,29 +559,30 @@ async function fetchGameSolution() {
 function playButtonListener() {
   if (!isPlaying) {
     startPlaying();
+    startTimer();
   }
 }
 
-function clearCookies(){
+function clearCookies() {
   cookies = document.cookie.split("; ").map((a) => a.split("=")[0]);
-  for (var i in cookies){
+  for (var i in cookies) {
     document.cookie = cookies[i] + "=;expires=" + new Date(0).toUTCString();
   }
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   var howToPlayButton = document.getElementById("howToPlayButton");
   var howToPlayModal = document.getElementById("howToPlayModal");
   var closeButton = document.getElementsByClassName("close")[0];
 
-  howToPlayButton.addEventListener("click", function() {
+  howToPlayButton.addEventListener("click", function () {
     howToPlayModal.style.display = "block";
   });
-  closeButton.addEventListener("click", function() {
+  closeButton.addEventListener("click", function () {
     howToPlayModal.style.display = "none";
   });
-  window.addEventListener("click", function(event) {
-    if(event.target == howToPlayModal){
+  window.addEventListener("click", function (event) {
+    if (event.target == howToPlayModal) {
       howToPlayModal.style.display = "none";
     }
   });
