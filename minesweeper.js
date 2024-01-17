@@ -8,6 +8,7 @@ let sampleMatrices = [];
 let minesweeperMatrix = [];
 let currentStepIndex = 0;
 let isBoardGenerated = false;
+let algorithm;
 
 let flagsDisplay = createDisplayElement("div", "000", "bomb-counter");
 let timerDisplay = createDisplayElement("div", "000", "timer");
@@ -21,6 +22,36 @@ let next = createDisplayElement("button", "Next", "reset");
 
 randomBtn.classList.add("random-btn");
 
+let bfs = createDisplayElement("button", "BFS", "reset");
+let dfs = createDisplayElement("button", "DFS", "reset");
+
+randomBtn.classList.add("random-btn");
+
+//Get solution after submit without executing matrix_manip.php manually
+function ajaxCallMatrix() {
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      // Do nothing with the response
+    }
+  };
+  xmlhttp.open("GET", "matrix_manip.php", true);
+  xmlhttp.send();
+}
+
+function bfsListener() {
+  algorithm = "BFS";
+  console.log("BFS clicked");
+  bfs.classList.add("locked");
+  dfs.classList.remove("locked");
+}
+
+function dfsListener() {
+  algorithm = "DFS";
+  console.log("DFS clicked");
+  dfs.classList.add("locked");
+  bfs.classList.remove("locked");
+}
 
 // EventListeners
 function attachButtonListeners() {
@@ -50,6 +81,16 @@ function attachButtonListeners() {
     randomMatrix();
     removePlayPauseColor(); // Remove play/pause color when submit button is clicked
   });
+  submitBtn.addEventListener("click", function () {
+    sendData();
+    submitAndFetch();
+    currentStepIndex = 0;
+  });
+  play.addEventListener("click", playButtonListener);
+  pause.addEventListener("click", puaseListener);
+  randomBtn.addEventListener("click", randomMatrix);
+  bfs.addEventListener("click", bfsListener);
+  dfs.addEventListener("click", dfsListener);
 
   document.addEventListener("keydown", function (event) {
     if (event.key === "p" || event.key === "P") {
@@ -75,7 +116,7 @@ function removePlayPauseColor() {
 function sendData() {
   const matrixData = getMatrixData();
   console.log(matrixData);
-  sendMatrixToServer(matrixData);
+  sendMatrixToServer(matrixData, algorithm);
 }
 
 function getMatrixData() {
@@ -99,11 +140,11 @@ function getMatrixData() {
   });
   return { matrixData: matrixData };
 }
-function sendMatrixToServer(matrixData) {
+function sendMatrixToServer(matrixData, algorithm) {
   const jsonData = JSON.stringify(matrixData);
   // Set JSON string to a cookie
   document.cookie = `matrixData=${jsonData}`;
-  document.cookie = "algorithm=DFS"
+  document.cookie = `algorithm=${algorithm}`;
 }
 
 //  Logic for random button
@@ -190,9 +231,6 @@ function createMinesweeperTable(rows, columns) {
   functionalityButtons.innerHTML = "";
 
   nextPrvBtn.innerHTML = "";
-
-  const bfs = createDisplayElement("button", "BFS", "reset");
-  const dfs = createDisplayElement("button", "DFS", "reset");
 
   gameHeader.appendChild(flagsDisplay);
   gameHeader.appendChild(emojiCell);
@@ -430,38 +468,38 @@ function showPreviousStep() {
 }
 
 function submitAndFetch() {
-  fetchGameSolution()
-    .then(() => {
-      console.log(isPlaying);
-      console.log(sampleMatrices.length);
-      console.log(currentStepIndex);
-      console.log(playInterval);
-    })
-    .catch((error) => {
-      console.error("Error fetching game solution:", error);
-    });
+  ajaxCallMatrix();
+  setTimeout(() => {
+    fetchGameSolution()
+      .then(() => {
+        console.log(isPlaying);
+        console.log(sampleMatrices.length);
+        console.log(currentStepIndex);
+        console.log(playInterval);
+      })
+      .catch((error) => {
+        console.error("Error fetching game solution:", error);
+      });
+  }, 1000); // Adjust the delay as needed
 }
 
-function fetchGameSolution() {
-  return fetch("solution.json")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      console.log("JSON data successfully fetched:", data);
+async function fetchGameSolution() {
+  try {
+    const response = await fetch("solution.json");
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    console.log("JSON data successfully fetched:", data);
 
-      sampleMatrices = [];
+    sampleMatrices = [];
 
-      data.forEach((step) => {
-        sampleMatrices.push(step.matrix);
-      });
-    })
-    .catch((error) => {
-      console.error("There was a problem with the fetch operation:", error);
+    data.forEach((step) => {
+      sampleMatrices.push(step.matrix);
     });
+  } catch (error) {
+    console.error("There was a problem with the fetch operation:", error);
+  }
 }
 
 function playButtonListener() {
@@ -469,5 +507,24 @@ function playButtonListener() {
     startPlaying();
   }
 }
+//how to play button
+document.addEventListener("DOMContentLoaded", function() {
+  var howToPlayButton = document.getElementById("howToPlayButton");
+  var howToPlayModal = document.getElementById("howToPlayModal");
+  var closeButton = document.getElementsByClassName("close")[0];
 
+  howToPlayButton.addEventListener("click", function() {
+    howToPlayModal.style.display = "block";
+  });
+
+  closeButton.addEventListener("click", function() {
+    howToPlayModal.style.display = "none";
+  });
+
+  window.addEventListener("click", function(event) {
+    if (event.target == howToPlayModal) {
+      howToPlayModal.style.display = "none";
+    }
+  });
+});
 initializeGame();

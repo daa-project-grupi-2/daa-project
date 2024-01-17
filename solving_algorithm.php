@@ -200,6 +200,10 @@ $mat =  [
 
 
 function write_to_json_file($mat, $mode){
+    if(file_exists("solution.json")){
+        echo "delete file";
+        unlink("solution.json");
+    }
     $solvedSteps = solveMinesweeper($mat, $mode);
 
     //--------------------------------------------------------------------------------------------------------------------------------
@@ -210,10 +214,7 @@ function write_to_json_file($mat, $mode){
     file_put_contents('solution.json', "");
     file_put_contents('solution.json', $json_solution); 
 
-    //Kodi i meposhtem perdoret per testim, per te pare a eshte ne rregull komunikimi get dhe put data ne jSon, qe ne fakt eshte ne rregull
-    //Pra lirisht mund te fshihet kur FrontEnd merr dhe perpunon te dhenat nga jSon duke perdorur kodin e ngjashem si me poshte
-    $json_data = file_get_contents('solution.json');
-    $decoded_data = json_decode($json_data, true);
+  
 }
 
 ?>

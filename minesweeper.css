@@ -196,7 +196,7 @@ td {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 120px;
+  margin-top: 20px;
 }
 
 .flag {
@@ -205,7 +205,7 @@ td {
 }
 
 .number-1 {
-  color: blue ;
+  color: blue;
 }
 
 .number-2 {
@@ -292,4 +292,51 @@ button.pause:hover {
 #openedCellsList li:before {
   content: counter(list-counter) "."; /* Display the counter as content before each li */
   margin-right: 5px; /* Add some spacing between the counter and text */
+
+.locked {
+  background-color: lightgray;
+  color: slategray;
+}
+/* Modal Styling */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 0; 
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#footer {
+  text-align: right;
+}
+
+#howToPlayButton {
+  margin-top: 4.5px;
+  margin-right: 25px; 
 }
