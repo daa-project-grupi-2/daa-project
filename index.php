@@ -19,6 +19,12 @@ if(file_exists($filename)){
       integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
       crossorigin="anonymous"
     ></script>
+    <style>
+      .modal-content{
+        font-size: 13.5px;
+        margin-top: 28px;
+      }
+    </style>
     <div id="howToPlayModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
