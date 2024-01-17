@@ -117,17 +117,14 @@ function restartGame() {
     createMinesweeperTable(9, 9);
     flagCount = 10;
     updateFlagDisplay();
-    attachCellListeners();
   } else if (currentMode === "intermediate") {
     createMinesweeperTable(16, 16);
     flagCount = 40;
     updateFlagDisplay();
-    attachCellListeners();
   } else {
     createMinesweeperTable(16, 30);
     flagCount = 99;
     updateFlagDisplay();
-    attachCellListeners();
   }
   initializeGame();
 }
@@ -181,7 +178,6 @@ function randomMatrix() {
     createRandomMinesweeperBoard(rows, columns, mineCount);
     flagCount = mineCount;
     updateFlagDisplay();
-    attachCellListeners();
   } else {
     console.log("Please create the initial minesweeper table first.");
   }
@@ -304,7 +300,7 @@ function initializeGame() {
     container.classList.remove("hidden");
     flagCount = 10;
     updateFlagDisplay();
-    attachCellListeners();
+
     currentMode = "easy";
   });
 
@@ -313,7 +309,7 @@ function initializeGame() {
     container.classList.remove("hidden");
     flagCount = 40;
     updateFlagDisplay();
-    attachCellListeners();
+
     currentMode = "intermediate";
   });
 
@@ -322,7 +318,7 @@ function initializeGame() {
     container.classList.remove("hidden");
     flagCount = 99;
     updateFlagDisplay();
-    attachCellListeners();
+
     currentMode = "expert";
   });
 }
@@ -338,6 +334,8 @@ function createDisplayElement(element, text, className = "") {
 }
 
 function clearGameData() {
+  timeElapsed = 0;
+  timerDisplay.textContent = "000";
   sampleMatrices = [];
   currentStepIndex = 0;
   isPlaying = false;
@@ -439,6 +437,7 @@ function playStepsAutomatically() {
     updateMinesweeperFlags(minesweeperMatrix);
     console.log("This is printed");
     stopPlaying();
+    stopTimer();
   }
 }
 
@@ -518,6 +517,7 @@ function showNextStep() {
 function puaseListener() {
   if (isPlaying) {
     stopPlaying();
+    stopTimer();
   }
 }
 
@@ -571,6 +571,7 @@ async function fetchGameSolution() {
 function playButtonListener() {
   if (!isPlaying) {
     startPlaying();
+    startTimer();
   }
 }
 
