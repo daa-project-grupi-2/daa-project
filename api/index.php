@@ -5,7 +5,6 @@ if(file_exists($filename)){
   unlink("solution.json");
 }
 ?>
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
