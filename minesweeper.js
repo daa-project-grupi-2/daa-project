@@ -179,6 +179,9 @@ function randomMatrix() {
     createRandomMinesweeperBoard(rows, columns, mineCount);
     flagCount = mineCount;
     updateFlagDisplay();
+    attachCellListeners();
+    submitBtn.disabled = false;
+
   } else {
     console.log("Please create the initial minesweeper table first.");
   }
@@ -532,6 +535,7 @@ function showPreviousStep() {
 }
 
 function submitAndFetch() {
+  submitBtn.disabled = true;
   ajaxCallMatrix();
   setTimeout(() => {
     fetchGameSolution()
