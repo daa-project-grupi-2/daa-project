@@ -10,6 +10,8 @@ let currentStepIndex = 0;
 let isBoardGenerated = false;
 let algorithm;
 let currentMode;
+let areBombGenerated = false;
+let isAlgorithmChoosed = false;
 
 let flagsDisplay = createDisplayElement("div", "000", "bomb-counter");
 let timerDisplay = createDisplayElement("div", "000", "timer");
@@ -42,6 +44,7 @@ function bfsListener() {
   console.log("BFS clicked");
   bfs.classList.add("locked");
   dfs.classList.remove("locked");
+  isAlgorithmChoosed = true;
 }
 
 function dfsListener() {
@@ -49,6 +52,7 @@ function dfsListener() {
   console.log("DFS clicked");
   dfs.classList.add("locked");
   bfs.classList.remove("locked");
+  isAlgorithmChoosed = true;
 }
 
 // EventListeners
@@ -75,6 +79,10 @@ function attachButtonListeners() {
 }
 
 function submitListener() {
+  if (!areBombGenerated || !isAlgorithmChoosed) {
+    console.log("Please generate the initial minesweeper table first.");
+    return;
+  }
   sendData();
   submitAndFetch();
   currentStepIndex = 0;
@@ -98,6 +106,8 @@ function restartGame() {
   minesweeperMatrix = [];
   currentStepIndex = 0;
   isBoardGenerated = false;
+  areBombGenerated = false;
+  isAlgorithmChoosed = false;
 
   timerDisplay.textContent = "000";
 
@@ -221,6 +231,8 @@ function createRandomMinesweeperBoard(rows, columns, mineCount) {
       }
     }
   }
+
+  areBombGenerated = true;
 }
 
 //  Pjesa kryesore per krijimin e board
@@ -372,13 +384,11 @@ function updateMinesweeperCells(matrix) {
 
       if (cellValue === "E" || cellValue === "M") {
         cellElement.textContent = "";
-      } 
-      else if (Number.isInteger(parseInt(cellValue))) {
+      } else if (Number.isInteger(parseInt(cellValue))) {
         cellElement.textContent = cellValue;
         cellElement.classList.add("opened-cell");
         cellElement.classList.add("number-" + cellValue);
-      } 
-      else {
+      } else {
         cellElement.textContent = "";
         cellElement.classList.add("opened-cell");
       }
@@ -386,7 +396,7 @@ function updateMinesweeperCells(matrix) {
   }
 }
 
-function updateMinesweeperFlags(matrix){
+function updateMinesweeperFlags(matrix) {
   const tbody = document.querySelector("#matrix tbody");
   tbody.innerHTML = "";
   for (let i = 0; i < matrix.length; i++) {
@@ -394,18 +404,15 @@ function updateMinesweeperFlags(matrix){
     for (let j = 0; j < matrix[i].length; j++) {
       const cellElement = rowElement.insertCell();
       const cellValue = matrix[i][j];
-      if(cellValue === "M"){
+      if (cellValue === "M") {
         cellElement.classList.add("flag");
-      }
-      else if (cellValue === "E") {
+      } else if (cellValue === "E") {
         cellElement.textContent = "";
-      } 
-      else if (Number.isInteger(parseInt(cellValue))) {
+      } else if (Number.isInteger(parseInt(cellValue))) {
         cellElement.textContent = cellValue;
         cellElement.classList.add("opened-cell");
         cellElement.classList.add("number-" + cellValue);
-      } 
-      else {
+      } else {
         cellElement.textContent = "";
         cellElement.classList.add("opened-cell");
       }
@@ -438,17 +445,15 @@ function playStepsAutomatically() {
 function startPlaying() {
   isPlaying = true;
   console.log("Stert playing function");
-  if(currentMode === 'easy'){
+  if (currentMode === "easy") {
     stepInterval(120);
-  }
-  else if(currentMode === 'intermediate') {
+  } else if (currentMode === "intermediate") {
     stepInterval(70);
-  }
-  else {
+  } else {
     stepInterval(50);
   }
 }
-function stepInterval(intervalTime){
+function stepInterval(intervalTime) {
   playInterval = setInterval(() => {
     console.log("Interval Triggered");
     try {
@@ -569,26 +574,26 @@ function playButtonListener() {
   }
 }
 
-function clearCookies(){
+function clearCookies() {
   cookies = document.cookie.split("; ").map((a) => a.split("=")[0]);
-  for (var i in cookies){
+  for (var i in cookies) {
     document.cookie = cookies[i] + "=;expires=" + new Date(0).toUTCString();
   }
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   var howToPlayButton = document.getElementById("howToPlayButton");
   var howToPlayModal = document.getElementById("howToPlayModal");
   var closeButton = document.getElementsByClassName("close")[0];
 
-  howToPlayButton.addEventListener("click", function() {
+  howToPlayButton.addEventListener("click", function () {
     howToPlayModal.style.display = "block";
   });
-  closeButton.addEventListener("click", function() {
+  closeButton.addEventListener("click", function () {
     howToPlayModal.style.display = "none";
   });
-  window.addEventListener("click", function(event) {
-    if(event.target == howToPlayModal){
+  window.addEventListener("click", function (event) {
+    if (event.target == howToPlayModal) {
       howToPlayModal.style.display = "none";
     }
   });
