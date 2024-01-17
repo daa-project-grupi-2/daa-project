@@ -9,19 +9,17 @@ let minesweeperMatrix = [];
 let currentStepIndex = 0;
 let isBoardGenerated = false;
 let algorithm;
+let currentMode;
 
 let flagsDisplay = createDisplayElement("div", "000", "bomb-counter");
 let timerDisplay = createDisplayElement("div", "000", "timer");
-let emojiCell = createDisplayElement("button", "😀", "reset");
-let randomBtn = createDisplayElement("button", "Random", "reset");
-let play = createDisplayElement("button", "Play", "reset");
-let submitBtn = createDisplayElement("button", "Submit", "reset");
-let previous = createDisplayElement("button", "Previous", "reset");
-let pause = createDisplayElement("button", "Pause", "reset");
+let reset = createDisplayElement("button", "😀", "reset");
 let next = createDisplayElement("button", "Next", "reset");
-
-randomBtn.classList.add("random-btn");
-
+let previous = createDisplayElement("button", "Previous", "reset");
+let play = createDisplayElement("button", "Play", "reset");
+let pause = createDisplayElement("button", "Pause", "reset");
+let randomBtn = createDisplayElement("button", "Random", "reset");
+let submitBtn = createDisplayElement("button", "Submit", "reset");
 let bfs = createDisplayElement("button", "BFS", "reset");
 let dfs = createDisplayElement("button", "DFS", "reset");
 
@@ -57,59 +55,71 @@ function dfsListener() {
 function attachButtonListeners() {
   next.addEventListener("click", showNextStep);
   previous.addEventListener("click", showPreviousStep);
-  submitBtn.addEventListener("click", submitAndFetch);
-  submitBtn.addEventListener("click", sendData);
-
-  play.addEventListener("click", function () {
-    playButtonListener();
-    play.classList.add("play");
-    pause.classList.remove("pause");
-  });
-
-  pause.addEventListener("click", function () {
-    puaseListener();
-    pause.classList.add("pause");
-    play.classList.remove("play");
-  });
-
-  randomBtn.addEventListener("click", function () {
-    randomMatrix();
-    removePlayPauseColor(); // Remove play/pause color when random button is clicked
-  });
-
-  submitBtn.addEventListener("click", function () {
-    randomMatrix();
-    removePlayPauseColor(); // Remove play/pause color when submit button is clicked
-  });
-  submitBtn.addEventListener("click", function () {
-    sendData();
-    submitAndFetch();
-    currentStepIndex = 0;
-  });
+  submitBtn.addEventListener("click", submitListener);
   play.addEventListener("click", playButtonListener);
   pause.addEventListener("click", puaseListener);
   randomBtn.addEventListener("click", randomMatrix);
   bfs.addEventListener("click", bfsListener);
   dfs.addEventListener("click", dfsListener);
+  reset.addEventListener("click", restartGame);
 
   document.addEventListener("keydown", function (event) {
     if (event.key === "p" || event.key === "P") {
       if (!isPlaying) {
         startPlaying();
-        removePlayPauseColor();
-        play.classList.add("play");
       } else {
         stopPlaying();
-        removePlayPauseColor();
-        pause.classList.add("pause");
       }
     }
   });
 }
 
-function removePlayPauseColor() {
-  play.classList.remove("play");
-  pause.classList.remove("pause");
+function submitListener() {
+  sendData();
+  submitAndFetch();
+  currentStepIndex = 0;
+}
+
+function restartGame() {
+  console.log("Reset clicked");
+
+  clearGameData();
+  stopTimer();
+
+  // Reset variables
+  flagCount = 0;
+  isTimerRunning = false;
+  timeElapsed = 0;
+  clearInterval(timerInterval);
+  isPlaying = false;
+  clearInterval(playInterval);
+  sampleMatrices = [];
+  minesweeperMatrix = [];
+  currentStepIndex = 0;
+  isBoardGenerated = false;
+
+  timerDisplay.textContent = "000";
+
+  document.getElementById("matrix").innerHTML = "";
+
+  if (currentMode === "easy") {
+    createMinesweeperTable(9, 9);
+    flagCount = 10;
+    updateFlagDisplay();
+    attachCellListeners();
+  } else if (currentMode === "intermediate") {
+    createMinesweeperTable(16, 16);
+    flagCount = 40;
+    updateFlagDisplay();
+    attachCellListeners();
+  } else {
+    createMinesweeperTable(16, 30);
+    flagCount = 99;
+    updateFlagDisplay();
+    attachCellListeners();
+  }
+
+  initializeGame();
 }
 
 // Logic for submit button
@@ -233,16 +243,17 @@ function createMinesweeperTable(rows, columns) {
   nextPrvBtn.innerHTML = "";
 
   gameHeader.appendChild(flagsDisplay);
-  gameHeader.appendChild(emojiCell);
+  gameHeader.appendChild(reset);
   gameHeader.appendChild(timerDisplay);
   chooseAlgorithm.appendChild(dfs);
   chooseAlgorithm.appendChild(bfs);
-  functionalityButtons.appendChild(randomBtn);
-  functionalityButtons.appendChild(play);
   functionalityButtons.appendChild(submitBtn);
+  functionalityButtons.appendChild(play);
+  nextPrvBtn.appendChild(next);
   nextPrvBtn.appendChild(previous);
   nextPrvBtn.appendChild(pause);
-  nextPrvBtn.appendChild(next);
+
+  functionalityButtons.appendChild(randomBtn);
 
   chooseAlgorithm.classList.remove("hidden");
   gameHeader.classList.remove("hidden");
@@ -275,11 +286,11 @@ function initializeGame() {
 
   document.getElementById("size-9").addEventListener("click", function () {
     createMinesweeperTable(9, 9);
-
     container.classList.remove("hidden");
     flagCount = 10;
     updateFlagDisplay();
     attachCellListeners();
+    currentMode = "easy";
   });
 
   document.getElementById("size-16").addEventListener("click", function () {
@@ -288,6 +299,7 @@ function initializeGame() {
     flagCount = 40;
     updateFlagDisplay();
     attachCellListeners();
+    currentMode = "intermediate";
   });
 
   document.getElementById("size-30").addEventListener("click", function () {
@@ -296,6 +308,7 @@ function initializeGame() {
     flagCount = 99;
     updateFlagDisplay();
     attachCellListeners();
+    currentMode = "expert";
   });
 }
 
@@ -316,6 +329,9 @@ function clearGameData() {
   clearInterval(playInterval);
   if (playButtonListener) {
     play.removeEventListener("click", playButtonListener);
+  }
+  if (submitListener) {
+    submitBtn.removeEventListener("click", submitListener);
   }
 }
 // TODO: Timer
@@ -340,10 +356,8 @@ function updateTimerDisplay() {
 /* Perditesimi i boardid  (perdisteson vetem celulat me vleren e re)*/
 function updateMinesweeperCells(matrix) {
   const tbody = document.querySelector("#matrix tbody");
-  const openedCellsList = document.getElementById("openedCellsList");
 
   tbody.innerHTML = "";
-  openedCellsList.innerHTML = "";
 
   for (let i = 0; i < matrix.length; i++) {
     const rowElement = tbody.insertRow();
@@ -359,7 +373,6 @@ function updateMinesweeperCells(matrix) {
 
         cellElement.classList.add("opened-cell");
         cellElement.classList.add("number-" + cellValue);
-        openedCellsList.innerHTML += `<li>Clicked at row ${i}, col ${j}</li>`;
       } else {
         cellElement.textContent = "";
         cellElement.classList.add("opened-cell");
@@ -400,7 +413,6 @@ function startPlaying() {
       stopPlaying();
     }
   }, 500);
-  document.getElementById('cell-list').classList.remove('hidden');
 }
 
 function stopPlaying() {
@@ -412,7 +424,7 @@ function stopPlaying() {
 /* Logjika e klikimit ne cell */
 function attachCellListeners() {
   const cells = document.querySelectorAll("td");
-  const clickedCellInfo = document.getElementById("clickedCellInfo");
+
   cells.forEach((cell) => {
     cell.addEventListener("click", function () {
       if (!isTimerRunning) {
@@ -446,6 +458,7 @@ function updateFlagDisplay() {
 function showNextStep() {
   if (currentStepIndex + 1 < sampleMatrices.length) {
     currentStepIndex++;
+
     minesweeperMatrix = sampleMatrices[currentStepIndex];
     updateMinesweeperCells(minesweeperMatrix);
   }
@@ -507,24 +520,5 @@ function playButtonListener() {
     startPlaying();
   }
 }
-//how to play button
-document.addEventListener("DOMContentLoaded", function() {
-  var howToPlayButton = document.getElementById("howToPlayButton");
-  var howToPlayModal = document.getElementById("howToPlayModal");
-  var closeButton = document.getElementsByClassName("close")[0];
 
-  howToPlayButton.addEventListener("click", function() {
-    howToPlayModal.style.display = "block";
-  });
-
-  closeButton.addEventListener("click", function() {
-    howToPlayModal.style.display = "none";
-  });
-
-  window.addEventListener("click", function(event) {
-    if (event.target == howToPlayModal) {
-      howToPlayModal.style.display = "none";
-    }
-  });
-});
 initializeGame();
