@@ -438,6 +438,17 @@ function playStepsAutomatically() {
 function startPlaying() {
   isPlaying = true;
   console.log("Stert playing function");
+  if(currentMode === 'easy'){
+    stepInterval(120);
+  }
+  else if(currentMode === 'intermediate') {
+    stepInterval(70);
+  }
+  else {
+    stepInterval(50);
+  }
+}
+function stepInterval(intervalTime){
   playInterval = setInterval(() => {
     console.log("Interval Triggered");
     try {
@@ -446,7 +457,7 @@ function startPlaying() {
       console.error("Error in playStepsAutomatically:", error);
       stopPlaying();
     }
-  }, 500);
+  }, intervalTime);
 }
 
 function stopPlaying() {

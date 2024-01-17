@@ -34,8 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || (isset($_COOKIE['matrixData']) && i
         
 
         header('Content-Type: application/json');
-        // --> Per JSON nese nevojitet e shtojme edhe rreshtin 25.
-        // echo json_encode(['data received' => $matrix_data]); 
     } else {
         // Kur te dhenat nuk jane ashtu sic kerkohen.
         http_response_code(400);

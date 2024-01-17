@@ -111,110 +111,16 @@ function printMinesweeper($matrix, $row, $col, $click)
     }
 }
 
-$mat =  [
-    ['E', 'E', 'E', 'E', 'E','E', 'M', 'E', 'E'],
-    ['E', 'M', 'E', 'E', 'E','E', 'E', 'E', 'E'],
-    ['E', 'E', 'E', 'E', 'E','E', 'M', 'E', 'E'],
-    ['M', 'E', 'E', 'E', 'E','E', 'E', 'E', 'E'],
-    ['E', 'M', 'E', 'E', 'E','E', 'E', 'E', 'E'],
-    ['E', 'E', 'E', 'E', 'E','E', 'M', 'E', 'E'],
-    ['E', 'M', 'E', 'E', 'E','E', 'E', 'E', 'M'],
-    ['E', 'E', 'E', 'E', 'E','E', 'E', 'E', 'E'],
-    ['E', 'E', 'E', 'E', 'E','M', 'E', 'M', 'E']
-];
-//  Intermmediate mode, 16x16 matrix with 40mines
-// $mat = [
-//     ['E', 'M', 'M', 'E', 'E','E', 'E', 'E', 'E','E', 'M', 'E', 'E', 'M','E', 'E'],
-//     ['E', 'E', 'E', 'E', 'E','E', 'E', 'E', 'E','E', 'E', 'M', 'E', 'E','E', 'E'],
-//     ['E', 'E', 'E', 'E', 'E','E', 'M', 'E', 'E','M', 'E', 'E', 'E', 'M','E', 'E'],
-//     ['E', 'E', 'E', 'E', 'E','E', 'M', 'E', 'E','E', 'E', 'M', 'E', 'E','M', 'M'],
-//     ['E', 'E', 'E', 'M', 'E','M', 'E', 'E', 'E','E', 'E', 'E', 'E', 'E','E', 'E'],
-//     ['E', 'E', 'E', 'E', 'M','E', 'E', 'E', 'E','M', 'M', 'E', 'E', 'E','E', 'E'],
-//     ['E', 'E', 'M', 'E', 'E','E', 'E', 'E', 'E','E', 'M', 'E', 'E', 'E','E', 'M'],
-//     ['E', 'E', 'E', 'E', 'E','E', 'E', 'E', 'E','E', 'E', 'E', 'E', 'E','E', 'E'],
-//     ['M', 'M', 'E', 'E', 'M','E', 'M', 'M', 'E','E', 'M', 'E', 'E', 'E','E', 'E'],
-//     ['E', 'E', 'E', 'E', 'E','E', 'M', 'E', 'E','E', 'E', 'E', 'E', 'E','E', 'E'],
-//     ['E', 'E', 'E', 'E', 'E','E', 'E', 'E', 'E','E', 'E', 'E', 'E', 'E','M', 'E'],
-//     ['E', 'E', 'E', 'E', 'E','E', 'E', 'E', 'E','E', 'E', 'E', 'E', 'M','E', 'E'],
-//     ['E', 'E', 'M', 'E', 'E','E', 'E', 'E', 'E','E', 'E', 'E', 'E', 'E','E', 'E'],
-//     ['M', 'M', 'E', 'E', 'E','E', 'E', 'E', 'M','E', 'M', 'E', 'E', 'E','E', 'M'],
-//     ['M', 'M', 'E', 'E', 'E','E', 'E', 'E', 'E','E', 'E', 'E', 'E', 'E','E', 'E'],
-//     ['E', 'E', 'E', 'E', 'E','M', 'E', 'E', 'M','E', 'E', 'E', 'E', 'E','M', 'E'],
-// ];
-//
-// Expert mode, 16x30 matrix with 99 mines
-// $mat = [
-//     ['E', 'M', 'M', 'E', 'E', 'M', 'E', 'M', 'E', 'E', 'M', 'E', 'E', 'M', 'E', 'E', 'M', 'E', 'E', 'M', 'E', 'E', 'E', 'M', 'E', 'E', 'M', 'E', 'E', 'E'],
-//     ['E', 'E', 'E', 'E', 'M', 'E', 'E', 'E', 'E', 'E', 'E', 'M', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'M', 'E', 'E', 'M', 'E', 'E', 'E', 'E', 'E'],
-//     ['E', 'M', 'E', 'E', 'E', 'E', 'M', 'E', 'E', 'M', 'E', 'E', 'E', 'M', 'E', 'E', 'E', 'E', 'M', 'E', 'E', 'E', 'M', 'E', 'E', 'E', 'M', 'M', 'E', 'E'],
-//     ['E', 'E', 'E', 'E', 'E', 'E', 'M', 'E', 'M', 'E', 'E', 'M', 'E', 'E', 'M', 'M', 'E', 'E', 'E', 'E', 'M', 'E', 'E', 'M', 'E', 'M', 'E', 'E', 'M', 'M'],
-//     ['E', 'M', 'E', 'M', 'E', 'M', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E'],
-//     ['E', 'E', 'E', 'E', 'M', 'E', 'E', 'M', 'E', 'M', 'M', 'E', 'M', 'E', 'E', 'E', 'E', 'M', 'E', 'M', 'E', 'E', 'E', 'E', 'M', 'E', 'E', 'E', 'E', 'E'],
-//     ['E', 'E', 'M', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'M', 'E', 'E', 'E', 'M', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'M', 'E', 'E', 'E', 'M', 'E', 'E', 'M'],
-//     ['E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'M', 'E', 'E', 'M', 'E', 'M', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E'],
-//     ['M', 'M', 'E', 'E', 'M', 'E', 'M', 'M', 'E', 'M', 'M', 'E', 'E', 'M', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'M', 'E', 'E', 'M', 'E', 'E', 'E'],
-//     ['E', 'E', 'E', 'E', 'E', 'E', 'M', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'M', 'E', 'E', 'E', 'M', 'E', 'E', 'M', 'E', 'E', 'E', 'E', 'E'],
-//     ['E', 'E', 'E', 'M', 'E', 'E', 'E', 'E', 'M', 'E', 'E', 'E', 'E', 'E', 'M', 'E', 'E', 'E', 'M', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'M', 'E', 'M', 'E'],
-//     ['E', 'E', 'E', 'E', 'E', 'M', 'E', 'M', 'E', 'E', 'E', 'M', 'E', 'M', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'M', 'E', 'E', 'E', 'E', 'E', 'E'],
-//     ['E', 'E', 'M', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'M', 'E', 'E', 'E', 'M', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E'],
-//     ['M', 'M', 'E', 'E', 'M', 'E', 'E', 'E', 'M', 'E', 'M', 'E', 'M', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'M', 'E', 'M', 'E', 'E', 'E', 'M'],
-//     ['M', 'M', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E'],
-//     ['E', 'E', 'M', 'E', 'E', 'M', 'E', 'E', 'M', 'E', 'E', 'M', 'E', 'E', 'M', 'E', 'E', 'E', 'M', 'E', 'E', 'E', 'M', 'E', 'E', 'E', 'E', 'M', 'E', 'E'],
-// ];
-
-
-//Ne koment eshte kodi i cili perdoret per fetching te te dhenave nga JSON, te perdorur nga FrontEnd dhe 
-//krijimi i matrices se re per cdo hap e njekohesisht anash printimin e steps te klikuar
-//Kodi i tille do pershtatet ne gjuhen JavaScript nga FrontEnd
-
-
-// for($i=0;$i<count($decoded_data);$i++){
-//     echo "\n Matrix number ".($i+1)."\n";
-//     echo "Click for the following matrix is: ";
-//     print_r($decoded_data[$i]['click'][0]);
-//     echo " ";
-//     print_r($decoded_data[$i]['click'][1]);
-//     echo "\n";
-//     for($j=0;$j<9;$j++){
-//         for($k=0;$k<9;$k++){
-//             print_r($decoded_data[$i]['matrix'][$j][$k]);
-//             echo " ";
-//         }
-//         echo "\n";        
-//     }
-    
-// }
-
-
-// echo "Initial Matrix:<br>";
-// printMinesweeper($mat, count($mat) - 1, count($mat[0]) - 1, null);
-
-// echo "<br><br>Solved Matrix:<br>";
-
-// foreach ($solvedSteps as $step) {
-//     $lastRow = count($step['matrix']) - 1;
-//     $lastCol = count($step['matrix'][0]) - 1;
-//     printMinesweeper($step['matrix'], $lastRow, $lastCol, $step['click']);
-//     echo "<br><br>";
-// }
-
-
 function write_to_json_file($mat, $mode){
     if(file_exists("solution.json")){
         echo "delete file";
         unlink("solution.json");
     }
+
     $solvedSteps = solveMinesweeper($mat, $mode);
-
-    //--------------------------------------------------------------------------------------------------------------------------------
-
-
-    //Vendosja ne fajllin json e solvedSteps, qe permban gjendjen e matrices ne cdo hap dhe klikun e nevojshem per ate gjendje
     $json_solution = json_encode($solvedSteps, JSON_PRETTY_PRINT);
     file_put_contents('solution.json', "");
     file_put_contents('solution.json', $json_solution); 
-
-  
 }
 
 ?>
