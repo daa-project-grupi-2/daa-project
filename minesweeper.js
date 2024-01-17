@@ -87,6 +87,10 @@ function submitListener() {
   submitAndFetch();
   currentStepIndex = 0;
   areBombGenerated = false;
+  dfs.classList.remove("locked");
+  bfs.classList.remove("locked");
+  algorithm = undefined;
+  isAlgorithmChoosed = false;
 }
 
 function restartGame() {
@@ -168,6 +172,7 @@ function sendMatrixToServer(matrixData, algorithm) {
 
 //  Logic for random button
 function randomMatrix() {
+  play.disabled = true;
   if (isBoardGenerated) {
     const rows = document
       .getElementById("matrix")
@@ -179,7 +184,7 @@ function randomMatrix() {
     createRandomMinesweeperBoard(rows, columns, mineCount);
     flagCount = mineCount;
     updateFlagDisplay();
-    attachCellListeners();
+    
     submitBtn.disabled = false;
 
   } else {
@@ -344,6 +349,9 @@ function clearGameData() {
   currentStepIndex = 0;
   isPlaying = false;
   clearInterval(playInterval);
+  dfs.classList.remove("locked");
+  bfs.classList.remove("locked");
+  algorithm = undefined;
   if (playButtonListener) {
     play.removeEventListener("click", playButtonListener);
   }
@@ -439,6 +447,8 @@ function playStepsAutomatically() {
     );
   } else {
     updateMinesweeperFlags(minesweeperMatrix);
+    flagCount = 0;
+    updateFlagDisplay();
     console.log("This is printed");
     stopPlaying();
     stopTimer();
@@ -474,36 +484,6 @@ function stopPlaying() {
   clearInterval(playInterval);
 }
 
-/* Logjika e klikimit ne cell */
-function attachCellListeners() {
-  const cells = document.querySelectorAll("td");
-
-  cells.forEach((cell) => {
-    cell.addEventListener("click", function () {
-      if (!isTimerRunning) {
-        startTimer();
-      }
-    });
-
-    cell.addEventListener("contextmenu", function (event) {
-      event.preventDefault();
-
-      if (!isTimerRunning) {
-        startTimer();
-      }
-      if (cell.classList.contains("flag")) {
-        cell.classList.remove("flag");
-        flagCount++;
-        updateFlagDisplay();
-      } else if (!cell.classList.contains("flag") && flagCount > 0) {
-        cell.classList.add("flag");
-        flagCount--;
-        updateFlagDisplay();
-      }
-    });
-  });
-}
-
 function updateFlagDisplay() {
   flagsDisplay.textContent = flagCount.toString().padStart(3, "0");
 }
@@ -514,6 +494,10 @@ function showNextStep() {
 
     minesweeperMatrix = sampleMatrices[currentStepIndex];
     updateMinesweeperCells(minesweeperMatrix);
+  }else {
+    updateMinesweeperFlags(minesweeperMatrix);
+    flagCount = 0;
+    updateFlagDisplay();
   }
 }
 
