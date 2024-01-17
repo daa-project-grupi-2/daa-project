@@ -85,6 +85,12 @@ button:hover {
   border-bottom: 2px solid #7b7b7b;
   border-left: 2px solid #ffffff;
 }
+.green-text {
+  color: green;
+}
+.red-text {
+  color: red;
+}
 
 #reset:hover {
   text-align: center;
@@ -292,7 +298,7 @@ button.pause:hover {
 #openedCellsList li:before {
   content: counter(list-counter) "."; /* Display the counter as content before each li */
   margin-right: 5px; /* Add some spacing between the counter and text */
-
+}
 .locked {
   background-color: lightgray;
   color: slategray;
