@@ -86,6 +86,7 @@ function submitListener() {
   sendData();
   submitAndFetch();
   currentStepIndex = 0;
+  areBombGenerated = false;
 }
 
 function restartGame() {
