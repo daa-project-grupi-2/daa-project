@@ -85,6 +85,7 @@ function restartGame() {
 
   clearGameData();
   stopTimer();
+  clearCookies();
 
   // Reset variables
   flagCount = 0;
@@ -118,7 +119,6 @@ function restartGame() {
     updateFlagDisplay();
     attachCellListeners();
   }
-
   initializeGame();
 }
 
@@ -150,6 +150,7 @@ function getMatrixData() {
   });
   return { matrixData: matrixData };
 }
+
 function sendMatrixToServer(matrixData, algorithm) {
   const jsonData = JSON.stringify(matrixData);
   // Set JSON string to a cookie
@@ -239,7 +240,6 @@ function createMinesweeperTable(rows, columns) {
   chooseAlgorithm.innerHTML = "";
   matrix.innerHTML = "";
   functionalityButtons.innerHTML = "";
-
   nextPrvBtn.innerHTML = "";
 
   gameHeader.appendChild(flagsDisplay);
@@ -247,13 +247,16 @@ function createMinesweeperTable(rows, columns) {
   gameHeader.appendChild(timerDisplay);
   chooseAlgorithm.appendChild(dfs);
   chooseAlgorithm.appendChild(bfs);
-  functionalityButtons.appendChild(submitBtn);
+  functionalityButtons.appendChild(randomBtn);
   functionalityButtons.appendChild(play);
-  nextPrvBtn.appendChild(next);
+  functionalityButtons.appendChild(submitBtn);
   nextPrvBtn.appendChild(previous);
   nextPrvBtn.appendChild(pause);
+  nextPrvBtn.appendChild(next);
 
-  functionalityButtons.appendChild(randomBtn);
+  play.classList.add("red-text");
+  play.disabled = true;
+  pause.classList.add("red-text");
 
   chooseAlgorithm.classList.remove("hidden");
   gameHeader.classList.remove("hidden");
@@ -355,6 +358,7 @@ function updateTimerDisplay() {
 
 /* Perditesimi i boardid  (perdisteson vetem celulat me vleren e re)*/
 function updateMinesweeperCells(matrix) {
+  console.log("Update matrix");
   const tbody = document.querySelector("#matrix tbody");
 
   tbody.innerHTML = "";
@@ -368,18 +372,47 @@ function updateMinesweeperCells(matrix) {
 
       if (cellValue === "E" || cellValue === "M") {
         cellElement.textContent = "";
-      } else if (Number.isInteger(parseInt(cellValue))) {
+      } 
+      else if (Number.isInteger(parseInt(cellValue))) {
         cellElement.textContent = cellValue;
-
         cellElement.classList.add("opened-cell");
         cellElement.classList.add("number-" + cellValue);
-      } else {
+      } 
+      else {
         cellElement.textContent = "";
         cellElement.classList.add("opened-cell");
       }
     }
   }
 }
+
+function updateMinesweeperFlags(matrix){
+  const tbody = document.querySelector("#matrix tbody");
+  tbody.innerHTML = "";
+  for (let i = 0; i < matrix.length; i++) {
+    const rowElement = tbody.insertRow();
+    for (let j = 0; j < matrix[i].length; j++) {
+      const cellElement = rowElement.insertCell();
+      const cellValue = matrix[i][j];
+      if(cellValue === "M"){
+        cellElement.classList.add("flag");
+      }
+      else if (cellValue === "E") {
+        cellElement.textContent = "";
+      } 
+      else if (Number.isInteger(parseInt(cellValue))) {
+        cellElement.textContent = cellValue;
+        cellElement.classList.add("opened-cell");
+        cellElement.classList.add("number-" + cellValue);
+      } 
+      else {
+        cellElement.textContent = "";
+        cellElement.classList.add("opened-cell");
+      }
+    }
+  }
+}
+
 function playStepsAutomatically() {
   console.log("Before automatic play", sampleMatrices.length, currentStepIndex);
   if (
@@ -396,6 +429,7 @@ function playStepsAutomatically() {
       currentStepIndex
     );
   } else {
+    updateMinesweeperFlags(minesweeperMatrix);
     console.log("This is printed");
     stopPlaying();
   }
@@ -489,6 +523,9 @@ function submitAndFetch() {
         console.log(sampleMatrices.length);
         console.log(currentStepIndex);
         console.log(playInterval);
+        play.disabled = false;
+        play.classList.remove("red-text");
+        play.classList.add("green-text");
       })
       .catch((error) => {
         console.error("Error fetching game solution:", error);
@@ -521,4 +558,12 @@ function playButtonListener() {
   }
 }
 
+function clearCookies(){
+  cookies = document.cookie.split("; ").map((a) => a.split("=")[0]);
+  for (var i in cookies){
+    document.cookie = cookies[i] + "=;expires=" + new Date(0).toUTCString();
+  }
+}
+
+clearCookies();
 initializeGame();
