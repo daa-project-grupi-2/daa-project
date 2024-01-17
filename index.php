@@ -83,10 +83,15 @@ if(file_exists($filename)){
             class="cell-header hidden"
             >
             <!-- Content will be dynamically added here -->
+          </section> 
           </section>
         </div>
-      </div>
+     </div>
+     <section id="cell-list" class="hidden">
+    <div id="message-container">
+      <ol id="openedCellsList"></ol>
     </div>
+    </section>
     <section id="footer">
       <div id="start"></div>
       <div id="size-btns">

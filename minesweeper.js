@@ -13,12 +13,15 @@ let algorithm;
 let flagsDisplay = createDisplayElement("div", "000", "bomb-counter");
 let timerDisplay = createDisplayElement("div", "000", "timer");
 let emojiCell = createDisplayElement("button", "😀", "reset");
-let next = createDisplayElement("button", "Next", "reset");
-let previous = createDisplayElement("button", "Previous", "reset");
-let play = createDisplayElement("button", "Play", "reset");
-let pause = createDisplayElement("button", "Pause", "reset");
 let randomBtn = createDisplayElement("button", "Random", "reset");
+let play = createDisplayElement("button", "Play", "reset");
 let submitBtn = createDisplayElement("button", "Submit", "reset");
+let previous = createDisplayElement("button", "Previous", "reset");
+let pause = createDisplayElement("button", "Pause", "reset");
+let next = createDisplayElement("button", "Next", "reset");
+
+randomBtn.classList.add("random-btn");
+
 let bfs = createDisplayElement("button", "BFS", "reset");
 let dfs = createDisplayElement("button", "DFS", "reset");
 
@@ -54,6 +57,30 @@ function dfsListener() {
 function attachButtonListeners() {
   next.addEventListener("click", showNextStep);
   previous.addEventListener("click", showPreviousStep);
+  submitBtn.addEventListener("click", submitAndFetch);
+  submitBtn.addEventListener("click", sendData);
+
+  play.addEventListener("click", function () {
+    playButtonListener();
+    play.classList.add("play");
+    pause.classList.remove("pause");
+  });
+
+  pause.addEventListener("click", function () {
+    puaseListener();
+    pause.classList.add("pause");
+    play.classList.remove("play");
+  });
+
+  randomBtn.addEventListener("click", function () {
+    randomMatrix();
+    removePlayPauseColor(); // Remove play/pause color when random button is clicked
+  });
+
+  submitBtn.addEventListener("click", function () {
+    randomMatrix();
+    removePlayPauseColor(); // Remove play/pause color when submit button is clicked
+  });
   submitBtn.addEventListener("click", function () {
     sendData();
     submitAndFetch();
@@ -69,11 +96,20 @@ function attachButtonListeners() {
     if (event.key === "p" || event.key === "P") {
       if (!isPlaying) {
         startPlaying();
+        removePlayPauseColor();
+        play.classList.add("play");
       } else {
         stopPlaying();
+        removePlayPauseColor();
+        pause.classList.add("pause");
       }
     }
   });
+}
+
+function removePlayPauseColor() {
+  play.classList.remove("play");
+  pause.classList.remove("pause");
 }
 
 // Logic for submit button
@@ -201,13 +237,12 @@ function createMinesweeperTable(rows, columns) {
   gameHeader.appendChild(timerDisplay);
   chooseAlgorithm.appendChild(dfs);
   chooseAlgorithm.appendChild(bfs);
-  functionalityButtons.appendChild(submitBtn);
+  functionalityButtons.appendChild(randomBtn);
   functionalityButtons.appendChild(play);
-  nextPrvBtn.appendChild(next);
+  functionalityButtons.appendChild(submitBtn);
   nextPrvBtn.appendChild(previous);
   nextPrvBtn.appendChild(pause);
-
-  functionalityButtons.appendChild(randomBtn);
+  nextPrvBtn.appendChild(next);
 
   chooseAlgorithm.classList.remove("hidden");
   gameHeader.classList.remove("hidden");
@@ -305,8 +340,10 @@ function updateTimerDisplay() {
 /* Perditesimi i boardid  (perdisteson vetem celulat me vleren e re)*/
 function updateMinesweeperCells(matrix) {
   const tbody = document.querySelector("#matrix tbody");
+  const openedCellsList = document.getElementById("openedCellsList");
 
   tbody.innerHTML = "";
+  openedCellsList.innerHTML = "";
 
   for (let i = 0; i < matrix.length; i++) {
     const rowElement = tbody.insertRow();
@@ -322,6 +359,7 @@ function updateMinesweeperCells(matrix) {
 
         cellElement.classList.add("opened-cell");
         cellElement.classList.add("number-" + cellValue);
+        openedCellsList.innerHTML += `<li>Clicked at row ${i}, col ${j}</li>`;
       } else {
         cellElement.textContent = "";
         cellElement.classList.add("opened-cell");
@@ -362,6 +400,7 @@ function startPlaying() {
       stopPlaying();
     }
   }, 500);
+  document.getElementById('cell-list').classList.remove('hidden');
 }
 
 function stopPlaying() {
@@ -373,7 +412,7 @@ function stopPlaying() {
 /* Logjika e klikimit ne cell */
 function attachCellListeners() {
   const cells = document.querySelectorAll("td");
-
+  const clickedCellInfo = document.getElementById("clickedCellInfo");
   cells.forEach((cell) => {
     cell.addEventListener("click", function () {
       if (!isTimerRunning) {
@@ -407,7 +446,6 @@ function updateFlagDisplay() {
 function showNextStep() {
   if (currentStepIndex + 1 < sampleMatrices.length) {
     currentStepIndex++;
-
     minesweeperMatrix = sampleMatrices[currentStepIndex];
     updateMinesweeperCells(minesweeperMatrix);
   }

@@ -183,6 +183,7 @@ td {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .game-board.container {
@@ -234,6 +235,63 @@ td.opened-cell {
   background-color: #b3aeae !important; /* Use !important to override any conflicting styles */
   /* Text color for opened cells */
 }
+button.play {
+  background-color: green;
+  color: white;
+}
+
+button.pause {
+  background-color: red;
+  color: white;
+}
+
+button.play:hover {
+  background-color: lightgreen; /* Lighter color on hover */
+  cursor: pointer;
+}
+
+button.pause:hover {
+  background-color: lightcoral; /* Lighter color on hover */
+  cursor: pointer;
+}
+
+#cell-list.hidden {
+  display: none;
+}
+
+#cell-list:not(.hidden) {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 180px; /* Adjust the width as needed */
+  max-height: calc(100vh - 20px); /* Adjust the max height as needed */
+  overflow-y: auto;
+  background-color: #c0c0c0; /* Adjust the background color to match */
+  padding: 8px;
+  border: 1px solid #7b7b7b;
+  border-radius: 5px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  scrollbar-width: thick; /* Adjust the scrollbar width as needed */
+  scrollbar-color: #999 #c0c0c0; /* Adjust the scrollbar colors as needed */
+}
+
+#openedCellsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#openedCellsList li {
+  font-family: 'Arial', sans-serif;
+  font-size: 12px; /* Adjust the font size as needed */
+  color: #333;
+  padding: 4px 0;
+  counter-increment: list-counter; 
+}
+
+#openedCellsList li:before {
+  content: counter(list-counter) "."; /* Display the counter as content before each li */
+  margin-right: 5px; /* Add some spacing between the counter and text */
 
 .locked {
   background-color: lightgray;
