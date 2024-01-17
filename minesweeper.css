@@ -239,6 +239,7 @@ td.opened-cell {
   background-color: lightgray;
   color: slategray;
 }
+
 /* Modal Styling */
 .modal {
   display: none;
@@ -254,10 +255,27 @@ td.opened-cell {
 
 .modal-content {
   background-color: #fefefe;
-  margin: 5% auto 0; 
+  margin: 1.7% auto 0; 
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
+}
+
+@media screen and (max-width: 600px) {
+  .modal-content {
+    margin: 5% auto;
+  }
+}
+.modal-content ol {
+  margin-right: 100px;
+  margin-left: 150px;
+}
+.modal-content h2 {
+  margin-left: 500px;
+}
+.modal-content p {
+  margin-left: 150px;
+  margin-right: 100px;
 }
 
 .close {
@@ -279,6 +297,6 @@ td.opened-cell {
 }
 
 #howToPlayButton {
-  margin-top: 4.5px;
-  margin-right: 25px; 
+  margin-top: 3.5px;
+  margin-right: 25px;
 }

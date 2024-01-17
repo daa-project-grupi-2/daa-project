@@ -23,6 +23,7 @@ if(file_exists($filename)){
   <div class="modal-content">
     <span class="close">&times;</span>
     <h2>How to Play Minesweeper</h2>
+    </br>
     <p>Welcome to Minesweeper! This classic game challenges your logical reasoning and strategy skills. Here's a step-by-step guide on how to play:</p>
 
     <ol>
