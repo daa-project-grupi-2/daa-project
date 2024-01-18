@@ -207,6 +207,9 @@ function createRandomMinesweeperBoard(rows, columns, mineCount) {
   const matrix = document.getElementById("matrix").querySelector("tbody");
 
   matrix.innerHTML = "";
+  timerDisplay.textContent = "000";
+  play.classList.remove("green-text");
+  play.classList.add("red-text");
 
   const emptyMatrix = Array.from({ length: rows }, () =>
     Array(columns).fill(0)
@@ -232,7 +235,7 @@ function createRandomMinesweeperBoard(rows, columns, mineCount) {
       if (cellValue === 9) {
         cellElement.style.backgroundImage =
           'url("https://static-00.iconduck.com/assets.00/bomb-emoji-1959x2048-vuy7ly1m.png")';
-        cellElement.style.backgroundSize = "contain";
+        cellElement.style.backgroundSize = "24px 20px";
         cellElement.innerHTML = "";
       }
     }
@@ -294,7 +297,7 @@ function createMinesweeperTable(rows, columns) {
 
   matrix.appendChild(tbody);
 
-  const cellWidth = 24;
+  const cellWidth = 25;
   container.style.width = `${columns * cellWidth + 20}px`;
   attachButtonListeners();
 
