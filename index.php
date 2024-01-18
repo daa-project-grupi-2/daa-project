@@ -5,7 +5,6 @@ if(file_exists($filename)){
   unlink("solution.json");
 }
 ?>
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -13,12 +12,18 @@ if(file_exists($filename)){
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Minesweeper</title>
-    <link rel="stylesheet" href="minesweeper.css" />
+    <link rel="stylesheet" href="style.css" />
     <script
       src="https://code.jquery.com/jquery-3.2.1.min.js"
       integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
       crossorigin="anonymous"
     ></script>
+    <style>
+      .modal-content{
+        font-size: 13.5px;
+        margin-top: 28px;
+      }
+    </style>
     <div id="howToPlayModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>

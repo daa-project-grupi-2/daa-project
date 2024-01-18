@@ -99,6 +99,7 @@ function restartGame() {
   clearGameData();
   stopTimer();
   clearCookies();
+  submitBtn.disabled = false;
 
   // Reset variables
   flagCount = 0;
